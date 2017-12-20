@@ -57,7 +57,7 @@
 //    _centeralManager = [[CBCentralManager alloc] initWithDelegate:self
 //                                                            queue:nil];
     
-    if(self.centeralManager.state == CBCentralStatePoweredOff) {
+    if(self.centeralManager.state == CBManagerStatePoweredOff) {
         // 蓝牙关闭的
         
     } else if(self.centeralManager.state == CBCentralManagerStateUnsupported) {
