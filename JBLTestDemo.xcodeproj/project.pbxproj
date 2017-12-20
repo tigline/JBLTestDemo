@@ -15,6 +15,8 @@
 		93718CEB1FEA6B0E0055D322 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CEA1FEA6B0E0055D322 /* main.m */; };
 		93718CF51FEA6B0F0055D322 /* JBLTestDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CF41FEA6B0F0055D322 /* JBLTestDemoTests.m */; };
 		93718D001FEA6B0F0055D322 /* JBLTestDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CFF1FEA6B0F0055D322 /* JBLTestDemoUITests.m */; };
+		93718D111FEA6F2D0055D322 /* SearchDeviceTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718D0D1FEA6F2D0055D322 /* SearchDeviceTableViewController.m */; };
+		93718D121FEA6F2D0055D322 /* LinkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718D0F1FEA6F2D0055D322 /* LinkOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,10 @@
 		93718CFB1FEA6B0F0055D322 /* JBLTestDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JBLTestDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93718CFF1FEA6B0F0055D322 /* JBLTestDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBLTestDemoUITests.m; sourceTree = "<group>"; };
 		93718D011FEA6B0F0055D322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93718D0D1FEA6F2D0055D322 /* SearchDeviceTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchDeviceTableViewController.m; sourceTree = "<group>"; };
+		93718D0E1FEA6F2D0055D322 /* SearchDeviceTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchDeviceTableViewController.h; sourceTree = "<group>"; };
+		93718D0F1FEA6F2D0055D322 /* LinkOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkOperation.m; sourceTree = "<group>"; };
+		93718D101FEA6F2D0055D322 /* LinkOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkOperation.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,10 @@
 				93718CDC1FEA6B0E0055D322 /* AppDelegate.m */,
 				93718CDE1FEA6B0E0055D322 /* ViewController.h */,
 				93718CDF1FEA6B0E0055D322 /* ViewController.m */,
+				93718D101FEA6F2D0055D322 /* LinkOperation.h */,
+				93718D0F1FEA6F2D0055D322 /* LinkOperation.m */,
+				93718D0E1FEA6F2D0055D322 /* SearchDeviceTableViewController.h */,
+				93718D0D1FEA6F2D0055D322 /* SearchDeviceTableViewController.m */,
 				93718CE11FEA6B0E0055D322 /* Main.storyboard */,
 				93718CE41FEA6B0E0055D322 /* Assets.xcassets */,
 				93718CE61FEA6B0E0055D322 /* LaunchScreen.storyboard */,
@@ -267,7 +277,9 @@
 			files = (
 				93718CE01FEA6B0E0055D322 /* ViewController.m in Sources */,
 				93718CEB1FEA6B0E0055D322 /* main.m in Sources */,
+				93718D121FEA6F2D0055D322 /* LinkOperation.m in Sources */,
 				93718CDD1FEA6B0E0055D322 /* AppDelegate.m in Sources */,
+				93718D111FEA6F2D0055D322 /* SearchDeviceTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

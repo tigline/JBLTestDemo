@@ -1,9 +1,9 @@
 //
 //  ViewController.h
-//  JBLTestDemo
+//  BlueToothDemo
 //
-//  Created by Aaron Hou on 20/12/2017.
-//  Copyright © 2017 Aaron Hou. All rights reserved.
+//  Created by 徐正权 on 16/5/28.
+//  Copyright © 2016年 徐正权. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
