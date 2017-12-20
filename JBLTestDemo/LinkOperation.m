@@ -2,8 +2,6 @@
 //  LinkOperation.m
 //  Weinei-iPhone
 //
-//  Created by 徐正权 on 16/3/25.
-//  Copyright © 2016年 cml. All rights reserved.
 //
 
 #import "LinkOperation.h"
@@ -57,13 +55,13 @@
 //    _centeralManager = [[CBCentralManager alloc] initWithDelegate:self
 //                                                            queue:nil];
     
-    if(self.centeralManager.state == CBCentralStatePoweredOff) {
+    if(self.centeralManager.state == CBManagerStatePoweredOff) {
         // 蓝牙关闭的
         
-    } else if(self.centeralManager.state == CBCentralManagerStateUnsupported) {
+    } else if(self.centeralManager.state == CBManagerStateUnsupported) {
         // 设备不支持蓝牙
-    } else if(self.centeralManager.state == CBCentralManagerStatePoweredOn ||
-              self.centeralManager.state == CBCentralManagerStateUnknown) {
+    } else if(self.centeralManager.state == CBManagerStatePoweredOn ||
+              self.centeralManager.state == CBManagerStateUnknown) {
         
         // 开启的话开始扫描蓝牙设备
         [self.centeralManager scanForPeripheralsWithServices:nil options:nil];
@@ -87,7 +85,7 @@
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
     switch (central.state) {
-        case CBCentralManagerStatePoweredOn:
+        case CBManagerStatePoweredOn:
         {
             // 扫描外围设备
             [self.centeralManager scanForPeripheralsWithServices:nil options:nil];
@@ -118,9 +116,13 @@
     // 设备的UUID（peripheral.identifier）是由两个设备的mac通过算法得到的，所以不同的手机连接相同的设备，它的UUID都是不同的，无法标识设备
     // 苹果与蓝牙设备连接通信时，使用的并不是苹果蓝牙模块的Mac地址，使用的是苹果随机生成的十六进制码作为手机蓝牙的Mac与外围蓝牙设备进行交互。如果蓝牙设备与手机在一定时间内多次通信，那么使用的是首次连接时随机生成的十六进制码作为Mac地址，超过这个固定的时间段，手机会清空已随机生成的Mac地址，重新生成。
     // 也就是说外围设备是不能通过与苹果手机的交互时所获取的蓝牙Mac地址作为手机的唯一标识的。
+    if ([_connectPeripheral.name isEqualToString:peripheral.name]) {
+        return;
+    }
     _connectPeripheral = peripheral;
 //    [self.centeralManager connectPeripheral:peripheral options:nil];
     
+   
    if (advertisementData[@"kCBAdvDataLocalName"] != nil || peripheral.name != nil){
         NSLog(@"已搜索到设备");
         NSLog(@"peripheral.identifier = %@  peripheral.name = %@", peripheral.identifier, peripheral.name);

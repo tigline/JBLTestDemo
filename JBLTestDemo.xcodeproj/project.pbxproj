@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		700330621FEAA24E007A871C /* DeviceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 700330611FEAA24E007A871C /* DeviceTableViewCell.m */; };
+		700330651FEAC771007A871C /* DeviceDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700330641FEAC771007A871C /* DeviceDashboardViewController.m */; };
 		93718CDD1FEA6B0E0055D322 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CDC1FEA6B0E0055D322 /* AppDelegate.m */; };
 		93718CE01FEA6B0E0055D322 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CDF1FEA6B0E0055D322 /* ViewController.m */; };
 		93718CE31FEA6B0E0055D322 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93718CE11FEA6B0E0055D322 /* Main.storyboard */; };
@@ -37,6 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		700330601FEAA24E007A871C /* DeviceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceTableViewCell.h; sourceTree = "<group>"; };
+		700330611FEAA24E007A871C /* DeviceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceTableViewCell.m; sourceTree = "<group>"; };
+		700330631FEAC771007A871C /* DeviceDashboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceDashboardViewController.h; sourceTree = "<group>"; };
+		700330641FEAC771007A871C /* DeviceDashboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceDashboardViewController.m; sourceTree = "<group>"; };
 		93718CD81FEA6B0E0055D322 /* JBLTestDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBLTestDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93718CDB1FEA6B0E0055D322 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		93718CDC1FEA6B0E0055D322 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -115,6 +121,10 @@
 				93718D0F1FEA6F2D0055D322 /* LinkOperation.m */,
 				93718D0E1FEA6F2D0055D322 /* SearchDeviceTableViewController.h */,
 				93718D0D1FEA6F2D0055D322 /* SearchDeviceTableViewController.m */,
+				700330601FEAA24E007A871C /* DeviceTableViewCell.h */,
+				700330611FEAA24E007A871C /* DeviceTableViewCell.m */,
+				700330631FEAC771007A871C /* DeviceDashboardViewController.h */,
+				700330641FEAC771007A871C /* DeviceDashboardViewController.m */,
 				93718CE11FEA6B0E0055D322 /* Main.storyboard */,
 				93718CE41FEA6B0E0055D322 /* Assets.xcassets */,
 				93718CE61FEA6B0E0055D322 /* LaunchScreen.storyboard */,
@@ -280,6 +290,8 @@
 				93718D121FEA6F2D0055D322 /* LinkOperation.m in Sources */,
 				93718CDD1FEA6B0E0055D322 /* AppDelegate.m in Sources */,
 				93718D111FEA6F2D0055D322 /* SearchDeviceTableViewController.m in Sources */,
+				700330621FEAA24E007A871C /* DeviceTableViewCell.m in Sources */,
+				700330651FEAC771007A871C /* DeviceDashboardViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
