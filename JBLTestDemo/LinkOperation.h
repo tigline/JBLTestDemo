@@ -10,6 +10,9 @@
 
 #import <CoreBluetooth/CoreBluetooth.h>
 
+
+typedef void (^bluetoothStateBlock)(CBManagerState state); //Bluetooth State Block
+typedef void (^peripheralConnectionBlock)(BOOL isConnect); // Connection block
 @protocol PeripheralOperationDelegate <NSObject>
 
 @optional
@@ -104,7 +107,7 @@
 /**
  *  连接设备
  */
-- (void)connectDiscoverPeripheral;
+- (void)connectDiscoverPeripheral:(peripheralConnectionBlock)state;;
 
 - (void)readDeviceInfo:(NSData *)data;
 

@@ -5,7 +5,10 @@
 //
 
 #import "LinkOperation.h"
-
+#import "OperationFormat.h"
+#import "Constants_JBLP.h"
+#import "JBLProduct.h"
+#import "XMLReader.h"
 // Classes
 //#import "CommandCode.h"
 //#import "AnalysisCommandCode.h"
@@ -24,17 +27,72 @@
 // 蓝牙设备提供的notify特性
 #define kCGMCharacteristicTwoUUID @"0000FFF2-0000-1000-8000-00805F9B34FB"
 
+#define k_CBAdvDataManufacturerData @"kCBAdvDataManufacturerData"
+#define k_CBAdvDataLocalName        @"kCBAdvDataLocalName"
+#define k_CBAdvDataIsConnectable    @"kCBAdvDataIsConnectable"
+#define k_VID 0x57
+#define VID @"vid"
+
+
 @interface LinkOperation () <CBCentralManagerDelegate, CBPeripheralDelegate>
+
+@property (strong, nonatomic) NSMutableArray *jblProducts;
+@property (nonatomic, strong) NSArray *supportedVids;
+@property (nonatomic,strong) bluetoothStateBlock state;
+@property (nonatomic,strong) peripheralConnectionBlock connectionState;
+
+@property (strong, nonatomic) CBCharacteristic *RX_characteristic;
+@property (strong, nonatomic) CBCharacteristic *TX_characteristic;
 
 @end
 
 @implementation LinkOperation
+{
+    dispatch_queue_t _queuePer;
+}
 
 - (instancetype)init
 {
+//    self = [super init];
+//    if (!self) {
+    _queuePer = _queuePer = dispatch_queue_create("com.test.JBLLinkPer", DISPATCH_QUEUE_SERIAL);
     _peripheralArray = [NSMutableArray arrayWithCapacity:0];
+    _jblProducts     = [NSMutableArray new];
+
+    _supportedVids = [[NSBundle mainBundle] objectForInfoDictionaryKey:SUPPORTED_VIDS];
+        
+    [self loadJBLProducts];
+//    }
+    
+    
     
     return self;
+}
+
+
+- (void)loadJBLProducts
+{
+    NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
+    
+    NSBundle *bundle = [NSBundle bundleWithURL:[frameworkBundle URLForResource:@"JBLProduct" withExtension:@"bundle"]];
+    NSString *filePath = [bundle pathForResource:@"JBLProducts" ofType:@"xml"];
+    NSData *xmlData = [[NSMutableData alloc] initWithContentsOfFile:filePath];
+    
+    NSError *error = nil;
+    NSDictionary *dictionary = [XMLReader dictionaryForXMLData:xmlData error:&error];
+    id productDicts = dictionary[@"map"][@"product"];
+    
+    if([productDicts isKindOfClass:[NSDictionary class]]){
+        productDicts = @[productDicts];
+    }
+    
+    for (NSDictionary *productDic in productDicts) {//dictionary[@"map"][@"product"]
+        for(NSString *hexVidString in _supportedVids){
+            if([self getDecimalFromHexString:hexVidString] == [self getDecimalFromHexString:[productDic valueForKey:VID]]){
+                [_jblProducts addObject:[[JBLProduct alloc] initWithDic:productDic]];
+            }
+        }
+    }
 }
 
 - (CBCentralManager *)centeralManager
@@ -90,7 +148,7 @@
             // 扫描外围设备
             [self.centeralManager scanForPeripheralsWithServices:nil options:nil];
         }
-            break;
+        break;
             
         default:
             NSLog(@"设备蓝牙未开启");
@@ -110,33 +168,96 @@
      kCBAdvDataManufacturerData = <43474d01>;
      kCBAdvDataTxPowerLevel = 0;
      */
+    if(!central.isScanning){
+        return;
+    }
+    NSData *advDataManData = [advertisementData objectForKey:k_CBAdvDataManufacturerData];
+    if (advDataManData == nil) {
+        return;
+    }
+    //1.CRC check
+    if (![OperationFormat checkCRCOnAdvertismentDataOK:advDataManData]) {
+        NSLog(@"centralManager:%@ CRC checked failed !",peripheral.name);
+        return;
+    }
+    //2.VID check
+    uint vid = [OperationFormat parseAdvDataManufacturerDataForVID:advDataManData];
+    if (![self validateVID:vid]) {
+        NSLog(@"centralManager:%@ VID checked failed !",peripheral.name);
+        return;
+    }
+    //3.PID check
+    uint pid = [OperationFormat parseAdvDataManufacturerDataForPID:advDataManData];
+    NSString *productId = [NSString stringWithFormat:@"%d", pid];
+    
+    if ([self validatePID:productId]) {
+        if ([_connectPeripheral.name isEqualToString:peripheral.name]) {
+            return;
+        }
+        _connectPeripheral = peripheral;
+        //    [self.centeralManager connectPeripheral:peripheral options:nil];
+        
+        
+        if (advertisementData[@"kCBAdvDataLocalName"] != nil || peripheral.name != nil){
+            NSLog(@"已搜索到设备");
+            NSLog(@"peripheral.identifier = %@  peripheral.name = %@", peripheral.identifier, peripheral.name);
+            
+            [_delegate getAdvertisementData:advertisementData andPeripheral:peripheral];
+            
+            [_peripheralArray addObject:peripheral];
+        }
+    }
+    
+    //4.addArray
 
-    NSLog(@"advertisementData.kCBAdvDataManufacturerData = %@", advertisementData[@"kCBAdvDataManufacturerData"]);
+
     
     // 设备的UUID（peripheral.identifier）是由两个设备的mac通过算法得到的，所以不同的手机连接相同的设备，它的UUID都是不同的，无法标识设备
     // 苹果与蓝牙设备连接通信时，使用的并不是苹果蓝牙模块的Mac地址，使用的是苹果随机生成的十六进制码作为手机蓝牙的Mac与外围蓝牙设备进行交互。如果蓝牙设备与手机在一定时间内多次通信，那么使用的是首次连接时随机生成的十六进制码作为Mac地址，超过这个固定的时间段，手机会清空已随机生成的Mac地址，重新生成。
     // 也就是说外围设备是不能通过与苹果手机的交互时所获取的蓝牙Mac地址作为手机的唯一标识的。
-    if ([_connectPeripheral.name isEqualToString:peripheral.name]) {
-        return;
-    }
-    _connectPeripheral = peripheral;
-//    [self.centeralManager connectPeripheral:peripheral options:nil];
     
-   
-   if (advertisementData[@"kCBAdvDataLocalName"] != nil || peripheral.name != nil){
-        NSLog(@"已搜索到设备");
-        NSLog(@"peripheral.identifier = %@  peripheral.name = %@", peripheral.identifier, peripheral.name);
-        
-        [_delegate getAdvertisementData:advertisementData andPeripheral:peripheral];
-        
-        [_peripheralArray addObject:peripheral];
-    }
 }
+
+- (BOOL)validateVID:(uint)vidInt
+{
+    for (NSString *hexVidString in _supportedVids) {
+        NSScanner* hScanner = [NSScanner scannerWithString:hexVidString];
+        unsigned int decimlVID;
+        [hScanner scanHexInt:&decimlVID];
+        if (vidInt == decimlVID) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)validatePID:(NSString *)productID
+{
+    for (JBLProduct *tProduct in _jblProducts) {
+        NSScanner *nScanner = [NSScanner scannerWithString:tProduct.pid];
+        unsigned int decimlPID;
+        [nScanner scanHexInt:&decimlPID];
+        if (productID.intValue == decimlPID) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (unsigned int)getDecimalFromHexString:(NSString *)hexString{
+    NSScanner* pScanner = [NSScanner scannerWithString: hexString];
+    unsigned int decimalVID;
+    [pScanner scanHexInt: &decimalVID];
+    
+    return decimalVID;
+}
+
 
 #pragma mark - 连接设备 -
 
-- (void)connectDiscoverPeripheral
+- (void)connectDiscoverPeripheral:(peripheralConnectionBlock)state
 {
+    _connectionState = state;
     [self.centeralManager connectPeripheral:_connectPeripheral options:nil];
 }
 
@@ -184,11 +305,14 @@
     [self.centeralManager stopScan];
     
     peripheral.delegate = self;
+    _connectionState(YES);
     
     dispatch_after(2, dispatch_get_main_queue(), ^{
         
         // 查找服务
-        [_connectPeripheral discoverServices:@[[CBUUID UUIDWithString:kCGMServiceTwoUUID]]];
+        NSLog(@"%@",[NSString stringWithFormat:@"Speaker %@ Discovering Services...", self]);
+
+        [_connectPeripheral discoverServices:@[bleTxRxService]];
     });
 }
 
@@ -208,8 +332,10 @@
         NSLog(@"service.UUID = ------------- = %@", service.UUID.UUIDString);
         
         // 找到需要的服务，并获取该服务响应的特性
-        if([service.UUID isEqual:[CBUUID UUIDWithString:kCGMServiceTwoUUID]]) {
-            [service.peripheral discoverCharacteristics:nil forService:service];
+        if([service.UUID isEqual:bleTxRxService]) {
+            CBUUID *RX_char = [CBUUID UUIDWithString:kRX_CHAR];
+            CBUUID *TX_char = [CBUUID UUIDWithString:kTX_CHAR];
+            [service.peripheral discoverCharacteristics:@[RX_char,TX_char] forService:service];
             NSLog(@"开始查找cgm的characteristic");
         }
     }
@@ -226,17 +352,49 @@
     }
     
     // 遍历服务中的所有特性
-    for (CBCharacteristic *characteristic in service.characteristics) {
-        
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicOneUUID]]) {
-            // 设置读写的特性
-            _readAndWriteCharacteristic = characteristic;
-        } else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicTwoUUID]]) {
-            // 设置需要订阅的特性
-            _notifyCharacteristic = characteristic;
-            [_connectPeripheral setNotifyValue:YES forCharacteristic:_notifyCharacteristic];
+    NSLog(@"%@",[NSString stringWithFormat:@"Found Characteristics:%@ for Speaker : %@", service.characteristics, self]);
+    int  count =0;
+    for (CBCharacteristic *c in service.characteristics) {
+        CBUUID *RX_char = [CBUUID UUIDWithString:kRX_CHAR];
+        CBUUID *TX_char = [CBUUID UUIDWithString:kTX_CHAR];
+        if ([c.UUID isEqual:RX_char]) {
+            self.RX_characteristic = c;     // find RX_char
         }
+        if ([c.UUID isEqual:TX_char]) {
+            self.TX_characteristic = c;     // find TX_char
+        }
+        count ++;
     }
+    if (self.RX_characteristic) {
+        
+        [_connectPeripheral setNotifyValue:YES forCharacteristic:self.RX_characteristic];
+        [_connectPeripheral setNotifyValue:YES forCharacteristic:self.TX_characteristic];
+        NSLog(@"find characteristics");
+        [self getRole];
+        //Improvement: During connection setup hanlde role
+//        if(self.devicIndex == DevIndexHost && weakSelf.deviceInfo.role == kDeviceModeNormal){
+//            [weakSelf getRole];
+//        }
+//        if(finishedTag == stateSendFile){
+//            [weakSelf reSendUpgrade];
+//        }
+//    for (CBCharacteristic *characteristic in service.characteristics) {
+//
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicOneUUID]]) {
+//            // 设置读写的特性
+//            _readAndWriteCharacteristic = characteristic;
+//        } else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicTwoUUID]]) {
+//            // 设置需要订阅的特性
+//            _notifyCharacteristic = characteristic;
+//            [_connectPeripheral setNotifyValue:YES forCharacteristic:_notifyCharacteristic];
+//        }
+    }
+}
+
+- (void)getRole{
+    __weak typeof (self) weakSelf = self;
+    NSData *data = [OperationFormat requestForDeviceRolePacketFormate];
+    [weakSelf writeCharacter:data];
 }
 
 
@@ -244,18 +402,28 @@
 // 写数据
 - (void)writeCharacter:(NSData *)data
 {
-    NSLog(@" characteristic.uuid = %@ data ==== %@", _readAndWriteCharacteristic.UUID.UUIDString, data);
-    if ([_readAndWriteCharacteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicOneUUID]]) {
-        [_connectPeripheral writeValue:data
-                        forCharacteristic:_readAndWriteCharacteristic
-                                     type:CBCharacteristicWriteWithResponse];
-    } else {
-        [_connectPeripheral writeValue:data
-                        forCharacteristic:_readAndWriteCharacteristic
-                                     type:CBCharacteristicWriteWithResponse];
+//    NSLog(@" characteristic.uuid = %@ data ==== %@", _readAndWriteCharacteristic.UUID.UUIDString, data);
+//    if ([_readAndWriteCharacteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicOneUUID]]) {
+//        [_connectPeripheral writeValue:data
+//                        forCharacteristic:_readAndWriteCharacteristic
+//                                     type:CBCharacteristicWriteWithResponse];
+//    } else {
+//        [_connectPeripheral writeValue:data
+//                        forCharacteristic:_readAndWriteCharacteristic
+//                                     type:CBCharacteristicWriteWithResponse];
+//    }
+    if(_connectPeripheral.state == CBPeripheralStateConnected) {
+        dispatch_async(_queuePer, ^{
+            if (_TX_characteristic) {
+                [_connectPeripheral setNotifyValue:YES forCharacteristic:_TX_characteristic];
+                [_connectPeripheral writeValue:data forCharacteristic:_TX_characteristic type:CBCharacteristicWriteWithResponse];
+            }
+        });
     }
     
 }
+
+
 
 // 读取蓝牙信息 （但并不是在返回值中接受，要在- (void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error 这个回调方法中接收）
 - (void)readCharacter

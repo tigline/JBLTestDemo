@@ -118,7 +118,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     _operation.connectPeripheral = _peripherArray[indexPath.row];
-    [_operation connectDiscoverPeripheral];
+    [_operation connectDiscoverPeripheral:^(BOOL isConnect) {
+        
+    }];
 }
 
 #pragma mark - GetPeripheralInfoDelegate -

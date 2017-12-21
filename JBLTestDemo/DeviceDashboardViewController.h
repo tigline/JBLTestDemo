@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "LinkOperation.h"
 @interface DeviceDashboardViewController : UIViewController
 
 @property (nonatomic, assign) CBPeripheral *peripheral;
 @property (nonatomic, assign) NSDictionary *deviceInfo;
+@property (nonatomic, strong) LinkOperation *operation;
+
 @end

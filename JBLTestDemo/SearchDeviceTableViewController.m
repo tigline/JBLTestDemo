@@ -37,6 +37,7 @@
     _operation = [[LinkOperation alloc] init];
     _operation.delegate = self;
     //    operation.operationDelegate = self;
+    [self setIndicateView];
     
     
 }
@@ -49,8 +50,8 @@
     [_searchIndictorView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [_searchIndictorView setBackgroundColor:[UIColor lightGrayColor]];
     [self.view addSubview:_searchIndictorView];
-    [_searchIndictorView startAnimating];
-    [self.tableView setScrollEnabled:NO];
+    //[_searchIndictorView startAnimating];
+    //[self.tableView setScrollEnabled:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -129,18 +130,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [_searchIndictorView startAnimating];
+    [self.tableView setScrollEnabled:NO];
     _operation.connectPeripheral = _peripherArray[indexPath.row];
-    
-//    if (_operation.connectPeripheral.state == CBPeripheralStateConnected) {
-//        [self.navigationController performSegueWithIdentifier:@"toDeviceDashboard" sender:_operation.connectPeripheral];
-//    }
-//    else
-//    {
-//        [_operation connectDiscoverPeripheral];
-//    }
     NSNumber *number = [NSNumber numberWithInteger:indexPath.row];
-    [self performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
+    
+    if (_operation.connectPeripheral.state == CBPeripheralStateConnected) {
+        [self.navigationController performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
+    }
+    else
+    {
+        [_operation connectDiscoverPeripheral:^(BOOL isConnect) {
+            if (isConnect) {
+                [_searchIndictorView stopAnimating];
+                [self.tableView setScrollEnabled:YES];
+                [self performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
+            }
+        }];
+    }
+    
     
 }
 
@@ -188,7 +196,7 @@
         //CBPeripheral *connectPeripheral = ((CBPeripheral *)_peripherArray)[sender];
         ((DeviceDashboardViewController *)(segue.destinationViewController)).peripheral = [_peripherArray objectAtIndex:[sender integerValue]];
         ((DeviceDashboardViewController *)(segue.destinationViewController)).deviceInfo = [_advertisementData objectAtIndex:[sender integerValue]];
-        
+        ((DeviceDashboardViewController *)(segue.destinationViewController)).operation = _operation;
     }
 }
 

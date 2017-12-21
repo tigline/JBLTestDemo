@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+    <product name="JBL Flip 4" pid="7889">
+        <capability isOTA="1" rename="1" led="0" battery="1" mfb="1">
+            <model mid="0x01" color="343735" img="Flip4Black_vertical"/>
+            <model mid="0x02" color="d3212a" img="Flip4Red_vertical"/>
+            <model mid="0x03" color="f04c26" img="Flip4Blue_vertical"/>
+            <model mid="0x04" color="e71e75" img="Flip4Teal_vertical"/>
+            <model mid="0x05" color="999a9c" img="Flip4Gray_vertical"/>
+            <model mid="0x06" color="2855a6" img="Flip4White_vertical"/>
+            <model mid="0x07" color="f3bc47" img="Flip4Malta_vertical"/>
+            <model mid="0x08" color="84d0d0" img="Flip4Squad_vertical"/>
+            <model mid="0x09" color="343735" img="Flip4Zap_vertical"/>
+            <model mid="0x0a" color="d3212a" img="Flip4Trio_vertical"/>
+            <model mid="0x0b" color="2855a6" img="Flip4Mosaic_vertical"/>
+            <model mid="0x10" color="d3212a" img="Flip4Trio_vertical"/>
+            <model mid="0x11" color="2855a6" img="Flip4Mosaic_vertical"/>
+        </capability>
+    </product>
+    <product name="JBL Pulse 3" pid="7890">
+        <capability isOTA="1" rename="1" led="1" battery="1" mfb="1">
+            <model mid="0x01" color="343735" img="Pulse_vertical"/>
+            <model mid="0x02" color="2855a6" img="Pulse3white_vertical"/>
+        </capability>
+    </product>
+    <product name="JBL Charge 3" pid="7868">
+        <capability isOTA="1" rename="1" led="0" battery="1" mfb="1">
+            <model mid="0x01" color="343735" img="JBLCHARGE3_PLUS"/> <!--black-->
+            <model mid="0x02" color="d3212a" img="JBLCHARGE3_PLUS"/> <!--red-->
+            <model mid="0x03" color="84d0d0" img="JBLCHARGE3_PLUS"/> <!--teal-->
+            <model mid="0x04" color="2855a6" img="JBLCHARGE3_PLUS"/> <!--blue-->
+            <model mid="0x05" color="999a9c" img="JBLCHARGE3_PLUS"/> <!--gray-->
+            <model mid="0x06" color="2855a6" img="JBL Charge3_mosaic"/>
+            <model mid="0x07" color="84d0d0" img="JBL Charge3_squad"/>
+            <model mid="0x08" color="343735" img="JBL Charge3_zap"/>
+            <model mid="0x09" color="f3bc47" img="JBL Charge3_maital"/>
+        </capability>
+    </product>
+</map>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+    <product name="JBL Flip 4" pid="0x1ED1" vid = "0x57" >
+        <capability isOTA="1" rename="1" led="0" battery="1" mfb="1" HFP = "1" feedbackTone = "1">
+            <model mid="0x01" color="343735" img="Flip4Black_vertical"/>
+            <model mid="0x02" color="d3212a" img="Flip4Red_vertical"/>
+            <model mid="0x03" color="f04c26" img="Flip4Blue_vertical"/>
+            <model mid="0x04" color="e71e75" img="Flip4Teal_vertical"/>
+            <model mid="0x05" color="999a9c" img="Flip4Gray_vertical"/>
+            <model mid="0x06" color="2855a6" img="Flip4White_vertical"/>
+            <model mid="0x07" color="f3bc47" img="Flip4Malta_vertical"/>
+            <model mid="0x08" color="84d0d0" img="Flip4Squad_vertical"/>
+            <model mid="0x09" color="343735" img="Flip4Zap_vertical"/>
+            <model mid="0x0a" color="d3212a" img="Flip4Trio_vertical"/>
+            <model mid="0x0b" color="2855a6" img="Flip4Mosaic_vertical"/>
+            <model mid="0x10" color="d3212a" img="Flip4Trio_vertical"/>
+            <model mid="0x11" color="2855a6" img="Flip4Mosaic_vertical"/>
+        </capability>
+    </product>
+    
+    <product name="JBL Pulse 3" pid="0x1ED2" vid = "0x57">
+        <capability isOTA="1" rename="1" led="1" battery="1" mfb="1" brightness="1" HFP = "1" feedbackTone = "1">
+            <model mid="0x01" color="343735" img="Pulse_vertical"/>
+            <model mid="0x02" color="2855a6" img="Pulse3white_vertical"/>
+        </capability>
+    </product>
+    <product name="JBL Charge 3" pid="0x1EBC" vid = "0x57">
+        <capability isOTA="1" rename="1" led="0" battery="1" mfb="1" HFP = "1" feedbackTone = "1">
+            <model mid="0x01" color="343735" img="JBLCharge3_Black"/>
+            <model mid="0x02" color="d3212a" img="JBLCharge3_Red"/>
+            <model mid="0x03" color="84d0d0" img="JBLCharge3_Teal"/>
+            <model mid="0x04" color="2855a6" img="JBLCharge3_Blue"/>
+            <model mid="0x05" color="999a9c" img="JBLCharge3_Gray"/>
+            <model mid="0x06" color="2855a6" img="JBLCharge3_Mosaic"/>
+            <model mid="0x07" color="84d0d0" img="JBLCharge3_Squad"/>
+            <model mid="0x08" color="343735" img="JBLCharge3_Zap"/>
+            <model mid="0x09" color="f3bc47" img="JBLCharge3_Malta"/>
+        </capability>
+    </product>
+    <product name="JBL BoomBox" pid="0x1EE7" vid = "0x57">
+        <capability isOTA="1" rename="1" led="0" battery="1" mfb="1" EQ = "1" HFP = "1" feedbackTone = "1">
+            <model mid="0x01" color="343735" img="JBLBoomboxBlack_horizontal"/>
+            <model mid="0x02" color="d3212a" img="JBLBoomboxForestGreen_horizontal"/>
+        </capability>
+    </product>
+    <product name="HK Onyx Studio 4" pid="0x1EE5" vid = "0x0ECB">
+        <capability isOTA="1" rename="1" led="0" battery="1" mfb="1">
+            <model mid="0x01" color="343735" img="onyxStudio4Black"/>
+            <model mid="0x02" color="d3212a" img="onyxStudio4White"/>
+            <model mid="0x03" color="f04c26" img="onyxStudio4Blue"/>
+        </capability>
+    </product>
+</map>

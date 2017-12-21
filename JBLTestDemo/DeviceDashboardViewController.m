@@ -25,6 +25,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)TestFuncBtn:(id)sender {
+    
+    //[_operation writeCharacter:];
+}
+- (IBAction)updateValue:(id)sender {
+    
+    
+    
+}
+
 /*
 #pragma mark - Navigation
 

@@ -41,5 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>Supported Harman VIDS</key>
+	<array>
+		<string>0x57</string>
+	</array>
 </dict>
 </plist>
