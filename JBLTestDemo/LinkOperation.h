@@ -111,6 +111,8 @@ typedef void (^peripheralConnectionBlock)(BOOL isConnect); // Connection block
 
 - (void)readDeviceInfo:(NSData *)data;
 
+-(void)getCurrentBrightNess;
+
 /**
  *  扫描设备
  */
@@ -123,6 +125,7 @@ typedef void (^peripheralConnectionBlock)(BOOL isConnect); // Connection block
  */
 - (void)writeCharacter:(NSData *)data;
 
+-(void)setCurrentBrightNess:(NSUInteger )brightness;
 /**
  *  读数据
  */

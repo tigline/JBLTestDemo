@@ -27,13 +27,22 @@
 
 - (IBAction)TestFuncBtn:(id)sender {
     
-    //[_operation writeCharacter:];
+
+    [_operation getCurrentBrightNess];
 }
-- (IBAction)updateValue:(id)sender {
-    
-    
-    
+
+//- (IBAction)updateValue:(UISlider *)sender {
+//
+//    NSUInteger brightnessValue = (NSUInteger)sender.value;
+//    [_operation setCurrentBrightNess:brightnessValue];
+//
+//}
+
+- (IBAction)updateValue:(UISlider *)sender {
+        NSUInteger brightnessValue = (NSUInteger)sender.value;
+        [_operation setCurrentBrightNess:brightnessValue];
 }
+
 
 /*
 #pragma mark - Navigation

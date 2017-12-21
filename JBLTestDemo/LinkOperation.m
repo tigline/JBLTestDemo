@@ -370,7 +370,7 @@
         [_connectPeripheral setNotifyValue:YES forCharacteristic:self.RX_characteristic];
         [_connectPeripheral setNotifyValue:YES forCharacteristic:self.TX_characteristic];
         NSLog(@"find characteristics");
-        [self getRole];
+        //[self getRole];
         //Improvement: During connection setup hanlde role
 //        if(self.devicIndex == DevIndexHost && weakSelf.deviceInfo.role == kDeviceModeNormal){
 //            [weakSelf getRole];
@@ -397,7 +397,18 @@
     [weakSelf writeCharacter:data];
 }
 
-
+-(void)setCurrentBrightNess:(NSUInteger )brightness
+{
+    unsigned int bright = (unsigned int)brightness;
+    NSData *data = [OperationFormat setBrightness:bright];
+    NSLog(@"setCurrentBrightNess Data called %ld",brightness);
+    [self writeCharacter:data];
+}
+-(void)getCurrentBrightNess
+{
+    NSData *data = [OperationFormat reqBrightnessInfo];
+    [self writeCharacter:data];
+}
 
 // 写数据
 - (void)writeCharacter:(NSData *)data

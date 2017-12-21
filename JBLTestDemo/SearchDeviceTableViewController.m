@@ -72,7 +72,7 @@
     [_advertisementData removeAllObjects];
     [_peripherArray removeAllObjects];
     [_operation stopScan];
-    _operation.connectPeripheral = nil;
+    //_operation.connectPeripheral = nil;
 }
 
 - (void)didReceiveMemoryWarning {

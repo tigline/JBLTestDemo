@@ -21,13 +21,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xdd-it-5eX">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="50" maxValue="255" translatesAutoresizingMaskIntoConstraints="NO" id="xdd-it-5eX">
                                 <rect key="frame" x="29.5" y="146" width="316" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="312" id="Z8h-WA-l3w"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="updateValue:" destination="Jcc-cu-VVu" eventType="valueChanged" id="WfC-UP-EhY"/>
+                                    <action selector="updateValue:" destination="Jcc-cu-VVu" eventType="valueChanged" id="HYx-iM-Pvb"/>
                                 </connections>
                             </slider>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAV-hE-bTi">
@@ -91,6 +91,9 @@
                             <constraint firstItem="FYa-17-1qU" firstAttribute="leading" secondItem="L4d-UF-xkf" secondAttribute="leading" id="ygg-GP-iMu"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="slide" destination="xdd-it-5eX" id="fxe-kF-L2G"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAZ-1h-b50" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

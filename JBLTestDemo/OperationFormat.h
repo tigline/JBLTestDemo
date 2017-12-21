@@ -15,5 +15,7 @@
 + (unsigned int)parseAdvDataManufacturerDataForPID:(NSData *)data;
 + (uChar)parseAdvDataManufacturerDataForMID:(NSData *)data;
 + (NSData *)requestForDeviceRolePacketFormate;
++(NSData *)setBrightness:(unsigned int)brightnessValue;
++ (NSData *)reqBrightnessInfo;
 
 @end

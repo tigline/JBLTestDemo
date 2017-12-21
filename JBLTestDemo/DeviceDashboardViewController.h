@@ -14,5 +14,6 @@
 @property (nonatomic, assign) CBPeripheral *peripheral;
 @property (nonatomic, assign) NSDictionary *deviceInfo;
 @property (nonatomic, strong) LinkOperation *operation;
+@property (weak, nonatomic) IBOutlet UISlider *slide;
 
 @end
