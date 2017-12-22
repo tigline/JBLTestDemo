@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="50" maxValue="255" translatesAutoresizingMaskIntoConstraints="NO" id="xdd-it-5eX">
-                                <rect key="frame" x="29.5" y="146" width="316" height="31"/>
+                                <rect key="frame" x="30" y="146" width="316" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="312" id="Z8h-WA-l3w"/>
                                 </constraints>
@@ -32,6 +32,10 @@
                             </slider>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAV-hE-bTi">
                                 <rect key="frame" x="28" y="212" width="320" height="216"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Jcc-cu-VVu" id="ADD-Zo-8dp"/>
+                                    <outlet property="delegate" destination="Jcc-cu-VVu" id="mne-4l-cDi"/>
+                                </connections>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="控制模式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L4d-UF-xkf">
                                 <rect key="frame" x="28" y="475" width="70" height="21"/>
@@ -47,6 +51,9 @@
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pBh-iH-Sn8">
                                 <rect key="frame" x="299" y="470" width="51" height="31"/>
+                                <connections>
+                                    <action selector="changeModeBtn:" destination="Jcc-cu-VVu" eventType="valueChanged" id="JBo-9g-uQE"/>
+                                </connections>
                             </switch>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p6X-Y0-gav">
                                 <rect key="frame" x="299" y="518" width="51" height="31"/>
@@ -72,15 +79,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="tAV-hE-bTi" firstAttribute="centerX" secondItem="RZy-8o-SFn" secondAttribute="centerX" id="0gb-T2-zAG"/>
+                            <constraint firstItem="p6X-Y0-gav" firstAttribute="leading" secondItem="pBh-iH-Sn8" secondAttribute="leading" id="2tM-S9-vgs"/>
                             <constraint firstItem="xdd-it-5eX" firstAttribute="centerX" secondItem="RZy-8o-SFn" secondAttribute="centerX" id="7jJ-bX-hEl"/>
                             <constraint firstItem="pBh-iH-Sn8" firstAttribute="leading" secondItem="L4d-UF-xkf" secondAttribute="trailing" constant="201" id="8ic-7T-m0u"/>
                             <constraint firstItem="tAV-hE-bTi" firstAttribute="top" secondItem="xdd-it-5eX" secondAttribute="bottom" constant="36" id="AuX-K8-70R"/>
                             <constraint firstItem="RFQ-gS-TEe" firstAttribute="top" secondItem="L4d-UF-xkf" secondAttribute="bottom" constant="27" id="H4Z-EG-mN9"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="O3r-9n-Dh9" secondAttribute="trailing" constant="20" symbolic="YES" id="KkE-c0-IkU"/>
                             <constraint firstItem="FYa-17-1qU" firstAttribute="top" secondItem="RFQ-gS-TEe" secondAttribute="bottom" constant="27" id="Ry9-hi-8q3"/>
                             <constraint firstItem="RFQ-gS-TEe" firstAttribute="leading" secondItem="L4d-UF-xkf" secondAttribute="leading" id="VPb-2E-Qrn"/>
                             <constraint firstItem="xdd-it-5eX" firstAttribute="top" secondItem="e5t-2y-dUO" secondAttribute="bottom" constant="82" id="cC5-Q0-s0x"/>
                             <constraint firstItem="RFQ-gS-TEe" firstAttribute="centerY" secondItem="p6X-Y0-gav" secondAttribute="centerY" id="cpb-25-vuY"/>
-                            <constraint firstItem="p6X-Y0-gav" firstAttribute="leading" secondItem="RFQ-gS-TEe" secondAttribute="trailing" constant="201" id="efq-R7-4ko"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RFQ-gS-TEe" secondAttribute="trailing" constant="20" symbolic="YES" id="g4I-7k-EFa"/>
                             <constraint firstItem="O3r-9n-Dh9" firstAttribute="leading" secondItem="FYa-17-1qU" secondAttribute="leading" id="gBR-FM-Ans"/>
                             <constraint firstItem="vLd-gS-7dy" firstAttribute="leading" secondItem="FYa-17-1qU" secondAttribute="trailing" constant="229" id="hHl-G0-19L"/>
                             <constraint firstItem="L4d-UF-xkf" firstAttribute="top" secondItem="tAV-hE-bTi" secondAttribute="bottom" constant="47" id="hwe-gz-iFM"/>
@@ -92,6 +101,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="SpeakThemePicker" destination="tAV-hE-bTi" id="kI6-SW-wMb"/>
+                        <outlet property="modeSwitchBtn" destination="pBh-iH-Sn8" id="mel-89-vfc"/>
                         <outlet property="slide" destination="xdd-it-5eX" id="fxe-kF-L2G"/>
                     </connections>
                 </viewController>

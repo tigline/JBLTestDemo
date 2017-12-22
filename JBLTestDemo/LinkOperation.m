@@ -252,6 +252,13 @@
     return decimalVID;
 }
 
+- (void)updateThemes:(unsigned int)themeId andRGBData:(NSData *)RGBData
+{
+    NSData *data = [OperationFormat setLedPatternForPluse:(themeId) des:RGBData];   // Added 0ne because theme id changed by firmware
+    
+    [self writeCharacter:data];
+}
+
 
 #pragma mark - 连接设备 -
 
@@ -370,27 +377,10 @@
         [_connectPeripheral setNotifyValue:YES forCharacteristic:self.RX_characteristic];
         [_connectPeripheral setNotifyValue:YES forCharacteristic:self.TX_characteristic];
         NSLog(@"find characteristics");
-        //[self getRole];
-        //Improvement: During connection setup hanlde role
-//        if(self.devicIndex == DevIndexHost && weakSelf.deviceInfo.role == kDeviceModeNormal){
-//            [weakSelf getRole];
-//        }
-//        if(finishedTag == stateSendFile){
-//            [weakSelf reSendUpgrade];
-//        }
-//    for (CBCharacteristic *characteristic in service.characteristics) {
-//
-//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicOneUUID]]) {
-//            // 设置读写的特性
-//            _readAndWriteCharacteristic = characteristic;
-//        } else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicTwoUUID]]) {
-//            // 设置需要订阅的特性
-//            _notifyCharacteristic = characteristic;
-//            [_connectPeripheral setNotifyValue:YES forCharacteristic:_notifyCharacteristic];
-//        }
+
     }
 }
-
+#pragma operation methor
 - (void)getRole{
     __weak typeof (self) weakSelf = self;
     NSData *data = [OperationFormat requestForDeviceRolePacketFormate];
@@ -404,11 +394,28 @@
     NSLog(@"setCurrentBrightNess Data called %ld",brightness);
     [self writeCharacter:data];
 }
--(void)getCurrentBrightNess
-{
+-(void)getCurrentBrightNess:(void(^)(NSUInteger brightness))block {
+    
+
     NSData *data = [OperationFormat reqBrightnessInfo];
     [self writeCharacter:data];
+    _getBrightnessBlock  = block;
 }
+
+- (void)getButtonMode:(void (^) (uChar mode))block {
+    NSData *data = [OperationFormat MFBEnquiry];
+    [self writeCharacter:data];
+    
+    _getMfbCommandBlock = block;
+}
+
+- (void)setButtonMode:(ButtonMode)mode status:(void (^) (BOOL success))block
+{
+    NSData *data = [OperationFormat MFBSetWithDevSetIndex: mode == kPlayPauseMode ? MFBInActive : MFBActive];
+    [self writeCharacter:data];
+    _mfbCommandBlock = block;
+}
+
 
 // 写数据
 - (void)writeCharacter:(NSData *)data
@@ -444,6 +451,47 @@
 //                              type:CBCharacteristicWriteWithResponse];
     [_connectPeripheral readValueForCharacteristic:_readAndWriteCharacteristic];
 }
+- (void)parseRecivedValue:(NSData *)dataValue {
+    
+    NSLog(@"%@",[NSString stringWithFormat:@"dataValue in JBL Peripheral class %@",dataValue]);
+    uChar CMDID = [OperationFormat parseAckPacketFormatForCmdID:dataValue];
+    
+    switch (CMDID) {
+        case eDevACK_JBLP:
+            
+            break;
+        case RetMFBStatus_JBLP:
+        {
+            unsigned int mfbStatus = [OperationFormat parseMFBMode:dataValue];
+            if (_getMfbCommandBlock) {
+                _getMfbCommandBlock(mfbStatus);
+            }
+            
+        }
+            break;
+        case eRetDevInfo_JBLP:
+            
+            break;
+        case eDeviceUpgradeStatus_JBLP:
+            
+            break;
+        case eSetRoleInfo_JBLP:
+            
+            break;
+        case eRetPatternBrightness:
+        {
+            NSUInteger brightness = [OperationFormat parseRetBrightnessWithData:dataValue];
+            if (_getBrightnessBlock) {
+                _getBrightnessBlock(brightness);
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    
+}
+    
 
 // 外围设备数据更新的回调方法， 可以在此回调方法中读取信息（无论是read的回调，还是notify（订阅）的回调都是此方法）
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
@@ -456,26 +504,27 @@
     }
     
     NSLog(@"value ============= %@", characteristic.value);
+    [self parseRecivedValue:characteristic.value];
+//    // 解析数据
+//    NSData *data = characteristic.value;
+//
+//    // 将NSData转Byte数组
+//    NSUInteger len = [data length];
+//    Byte *byteData = (Byte *)malloc(len);
+//    memcpy(byteData, [data bytes], len);
+//
+//    NSMutableArray *commandArray = [NSMutableArray arrayWithCapacity:0];
+//
+//    // Byte数组转字符串
+//    for (int i = 0; i < len; i++) {
+//        NSString *str = [NSString stringWithFormat:@"%02x", byteData[i]];
+//        [commandArray addObject:str];
+//        NSLog(@"byteData = %@", str);
+//    }
+//
+//    // 输出数据
+//    [_operationDelegate dataWithCharacteristic:commandArray];
     
-    // 解析数据
-    NSData *data = characteristic.value;
-    
-    // 将NSData转Byte数组
-    NSUInteger len = [data length];
-    Byte *byteData = (Byte *)malloc(len);
-    memcpy(byteData, [data bytes], len);
-    
-    NSMutableArray *commandArray = [NSMutableArray arrayWithCapacity:0];
-    
-    // Byte数组转字符串
-    for (int i = 0; i < len; i++) {
-        NSString *str = [NSString stringWithFormat:@"%02x", byteData[i]];
-        [commandArray addObject:str];
-        NSLog(@"byteData = %@", str);
-    }
-    
-    // 输出数据
-    [_operationDelegate dataWithCharacteristic:commandArray];
     
 }
 
@@ -524,6 +573,43 @@
     }
     result = [NSString stringWithString:hexString];
     return result;
+}
+
+- (NSMutableArray *)loadJBLThemes {
+    NSBundle *bundle = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"JBLProduct" withExtension:@"bundle"]];
+    NSString *filePath = [bundle pathForResource:@"JBLLightThemes" ofType:@"xml"];
+    NSData *xmlData = [[NSMutableData alloc] initWithContentsOfFile:filePath];
+    
+    NSMutableArray *tempThemeArray = [[NSMutableArray alloc]init];
+    NSError *error = nil;
+    NSDictionary *dictionary = [XMLReader dictionaryForXMLData:xmlData error:&error];
+    for (NSDictionary *productDic in dictionary[@"theme"][@"pattern"]) {
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        NSMutableArray *arrayAnimation = [[NSMutableArray alloc]init];
+        for(NSString *strKey in productDic.allKeys){
+            if([[productDic objectForKey:strKey] isKindOfClass:[NSDictionary class]]){
+                NSDictionary *tempDic = [productDic objectForKey:strKey];
+                if([[tempDic objectForKey:@"animationdrawable"] isKindOfClass:[NSArray class]]){
+                    NSArray *tempArray = [tempDic objectForKey:@"animationdrawable"];
+                    for(NSDictionary *tempDictionary in tempArray){
+                        NSString *valueString = [tempDictionary objectForKey:@"value"];
+                        if(valueString){
+                            [arrayAnimation addObject:valueString];
+                        }
+                    }
+                }else{
+                    NSString *valueString = [tempDic objectForKey:@"value"];
+                    [dic setObject:valueString forKey:strKey];
+                }
+            }else{
+                NSString *valueString = [productDic objectForKey:strKey];
+                [dic setObject:valueString forKey:strKey];
+            }
+        }
+        [dic setObject:arrayAnimation forKey:@"animationdrawable"];
+        [tempThemeArray addObject:dic];
+    }
+    return  tempThemeArray;
 }
 
 @end

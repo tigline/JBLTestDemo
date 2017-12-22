@@ -26,6 +26,7 @@
 		9379CDC31FEBA31300592CEF /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9379CDC21FEBA31300592CEF /* XMLReader.m */; };
 		9379CDC61FEBA45800592CEF /* Capability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9379CDC41FEBA45800592CEF /* Capability.m */; };
 		9379CDC91FEBA50000592CEF /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 9379CDC71FEBA50000592CEF /* Model.m */; };
+		93C43AE61FECA848001D36BE /* JBLThemeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C43AE51FECA848001D36BE /* JBLThemeModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,8 @@
 		9379CDC51FEBA45800592CEF /* Capability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capability.h; sourceTree = "<group>"; };
 		9379CDC71FEBA50000592CEF /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		9379CDC81FEBA50000592CEF /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		93C43AE41FECA848001D36BE /* JBLThemeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBLThemeModel.h; sourceTree = "<group>"; };
+		93C43AE51FECA848001D36BE /* JBLThemeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBLThemeModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +149,8 @@
 				9379CDBF1FEBA1CF00592CEF /* JBLProduct.m */,
 				9379CDC81FEBA50000592CEF /* Model.h */,
 				9379CDC71FEBA50000592CEF /* Model.m */,
+				93C43AE41FECA848001D36BE /* JBLThemeModel.h */,
+				93C43AE51FECA848001D36BE /* JBLThemeModel.m */,
 				9379CDC51FEBA45800592CEF /* Capability.h */,
 				9379CDC41FEBA45800592CEF /* Capability.m */,
 				9379CDB11FEB8ACA00592CEF /* OperationFormat.h */,
@@ -350,6 +355,7 @@
 				9379CDC01FEBA1D000592CEF /* JBLProduct.m in Sources */,
 				700330651FEAC771007A871C /* DeviceDashboardViewController.m in Sources */,
 				9379CDC61FEBA45800592CEF /* Capability.m in Sources */,
+				93C43AE61FECA848001D36BE /* JBLThemeModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

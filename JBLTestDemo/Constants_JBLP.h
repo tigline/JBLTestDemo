@@ -217,6 +217,10 @@ typedef NS_ENUM(NSInteger, ECMDTpye_JBLP) {
     SetHFPStatus            = 0x70
 };
 
+typedef NS_ENUM(NSInteger, MFBDevIndex) {
+    MFBInActive = 0x00,  // Play/PAUSE
+    MFBActive = 0x01    // Voice trigger
+};
 
 typedef NS_ENUM(NSInteger, ESpeakerOwnerType_JBLP){
     eSpeakerOwnerHost_JBLP               = 0x00,

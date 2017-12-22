@@ -9,10 +9,16 @@
 #import <Foundation/Foundation.h>
 
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "Constants_JBLP.h"
 
 
 typedef void (^bluetoothStateBlock)(CBManagerState state); //Bluetooth State Block
 typedef void (^peripheralConnectionBlock)(BOOL isConnect); // Connection block
+typedef void (^JBLGetMfbCommandBlock)(uChar CMD);
+typedef void (^JBLgetBrightnessBlock)(NSUInteger brightness);;
+typedef void (^JBLMfbCommandBlock)(BOOL isSuccess);
+
+
 @protocol PeripheralOperationDelegate <NSObject>
 
 @optional
@@ -56,6 +62,12 @@ typedef void (^peripheralConnectionBlock)(BOOL isConnect); // Connection block
 @end
 
 @interface LinkOperation : NSObject
+
+@property (nonatomic, copy) JBLGetMfbCommandBlock getMfbCommandBlock;
+
+@property (nonatomic, copy) JBLgetBrightnessBlock getBrightnessBlock;
+
+@property (nonatomic, copy) JBLMfbCommandBlock mfbCommandBlock;
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
@@ -130,5 +142,12 @@ typedef void (^peripheralConnectionBlock)(BOOL isConnect); // Connection block
  *  读数据
  */
 - (void)readCharacter;
+
+- (NSMutableArray *)loadJBLThemes;
+- (void)updateThemes:(unsigned int)themeId andRGBData:(NSData *)RGBData;
+
+- (void)getButtonMode:(void (^) (uChar mode))block;
+-(void)getCurrentBrightNess:(void(^)(NSUInteger brightness))block;
+- (void)setButtonMode:(ButtonMode)mode status:(void (^) (BOOL success))block;
 
 @end

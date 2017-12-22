@@ -15,7 +15,13 @@
 + (unsigned int)parseAdvDataManufacturerDataForPID:(NSData *)data;
 + (uChar)parseAdvDataManufacturerDataForMID:(NSData *)data;
 + (NSData *)requestForDeviceRolePacketFormate;
-+(NSData *)setBrightness:(unsigned int)brightnessValue;
++ (NSData *)setBrightness:(unsigned int)brightnessValue;
 + (NSData *)reqBrightnessInfo;
++ (NSData *)setLedPatternForPluse:(unsigned int)patternType des:(NSData *)desData;
++ (uChar)parseAckPacketFormatForCmdID:(NSData *)data;
++ (NSData *)MFBEnquiry;
++ (uChar)parseMFBMode:(NSData *)data;
 
++(unsigned int)parseRetBrightnessWithData:(NSData *)brightnessData;
++ (NSData *)MFBSetWithDevSetIndex:(MFBDevIndex)state;
 @end

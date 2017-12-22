@@ -15,5 +15,7 @@
 @property (nonatomic, assign) NSDictionary *deviceInfo;
 @property (nonatomic, strong) LinkOperation *operation;
 @property (weak, nonatomic) IBOutlet UISlider *slide;
+@property (weak, nonatomic) IBOutlet UIPickerView *SpeakThemePicker;
+@property (weak, nonatomic) IBOutlet UISwitch *modeSwitchBtn;
 
 @end

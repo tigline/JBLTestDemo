@@ -105,4 +105,85 @@
     return data;
 }
 
++(NSData *)setLedPatternForPluse:(unsigned int)patternType des:(NSData *)desData
+{
+    Byte temp[8] = {};
+    temp[0] = 0xAA;             // identifier
+    temp[1] = eSetLEDPattern;             //
+    temp[2] = 0x05;             // payload len
+    temp[3] = patternType;
+    
+    Byte *pByte =(Byte *)[desData bytes];  // NSData to Byte
+    for (int i = 0; i <desData.length ; i++) {
+        temp[4+i] = pByte[i];
+    }
+    NSData *data = [NSData dataWithBytes:temp length:desData.length+4];
+    return data;
+}
+
++ (uChar)parseAckPacketFormatForCmdID:(NSData *)data
+{
+    Byte *pByte = (Byte *)[data bytes];                 // NSData to Byte
+    NSData *cmdIDData = [NSData dataWithBytes:(pByte + 1) length:1];    // Get cmdID data
+    
+    unsigned char cmdIDUchar;
+    [cmdIDData getBytes:&cmdIDUchar length:sizeof(cmdIDUchar)];
+    
+    return cmdIDUchar;
+}
+
++ (NSData *)MFBEnquiry
+{
+    
+    Byte temp[3] = {};
+    temp[0] = 0xAA;                         // identifier
+    temp[1] = ReqMFBStatus_JBLP;                    // 0x33
+    temp[2] = 0x00;                         // payload len
+
+    
+    
+    // temp[3] = devIndex;
+    
+    //  NSData *data = [NSData dataWithBytes:temp length:3];
+    //  return data;
+    NSData *data = [NSData dataWithBytes:temp length:3];
+    return data;
+}
+
++ (uChar)parseMFBMode:(NSData *)data
+{
+    Byte *pByte = (Byte *)[data bytes];
+    NSData *statusData = [NSData dataWithBytes:pByte+3 length:1];
+    
+    uChar statusCode;
+    [statusData getBytes:&statusCode length:sizeof(statusData)];
+    
+    return statusCode;
+}
+
++(unsigned int)parseRetBrightnessWithData:(NSData *)brightnessData
+{
+    Byte *pByte = (Byte *)[brightnessData bytes]; // NSData to Byte
+    NSData *brightNessValue = [NSData dataWithBytes:(pByte +3) length:1];
+    // convert NSData BrightnessValue to int
+    unsigned int brightnes = 0;
+    [brightNessValue getBytes:&brightnes length:sizeof(brightnes)];
+    brightnes = brightnes & 0x00FFFFFF;
+
+    
+    return brightnes;
+}
+
++ (NSData *)MFBSetWithDevSetIndex:(MFBDevIndex)state {
+    Byte temp[4] = {};
+    temp[0] = 0xAA;                         // identifier
+    temp[1] = SetMFBStatus_JBLP;                    // 0x32
+    temp[2] = 0x01;                         // payload len
+    temp[3] = state;
+    
+    NSData *data = [NSData dataWithBytes:temp length:4];
+    return data;  // no return
+}
+
+
 @end
