@@ -24,4 +24,5 @@
 
 +(unsigned int)parseRetBrightnessWithData:(NSData *)brightnessData;
 + (NSData *)MFBSetWithDevSetIndex:(MFBDevIndex)state;
++ (NSData *)reqDevInfoPacketFormat;
 @end

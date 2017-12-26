@@ -145,6 +145,7 @@
                 [_searchIndictorView stopAnimating];
                 [self.tableView setScrollEnabled:YES];
                 [self performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
+                [_operation getRetDevInfo];
             }
         }];
     }

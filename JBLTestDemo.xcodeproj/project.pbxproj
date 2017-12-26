@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		700330621FEAA24E007A871C /* DeviceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 700330611FEAA24E007A871C /* DeviceTableViewCell.m */; };
 		700330651FEAC771007A871C /* DeviceDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700330641FEAC771007A871C /* DeviceDashboardViewController.m */; };
+		7003306A1FF293AB007A871C /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = 700330691FF293AB007A871C /* Http.m */; };
+		7003306D1FF299EC007A871C /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7003306B1FF299EC007A871C /* DeviceInfo.m */; };
 		93718CDD1FEA6B0E0055D322 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CDC1FEA6B0E0055D322 /* AppDelegate.m */; };
 		93718CE01FEA6B0E0055D322 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CDF1FEA6B0E0055D322 /* ViewController.m */; };
 		93718CE31FEA6B0E0055D322 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93718CE11FEA6B0E0055D322 /* Main.storyboard */; };
@@ -54,6 +56,10 @@
 		700330611FEAA24E007A871C /* DeviceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceTableViewCell.m; sourceTree = "<group>"; };
 		700330631FEAC771007A871C /* DeviceDashboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceDashboardViewController.h; sourceTree = "<group>"; };
 		700330641FEAC771007A871C /* DeviceDashboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceDashboardViewController.m; sourceTree = "<group>"; };
+		700330681FF293AB007A871C /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Http.h; sourceTree = "<group>"; };
+		700330691FF293AB007A871C /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Http.m; sourceTree = "<group>"; };
+		7003306B1FF299EC007A871C /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
+		7003306C1FF299EC007A871C /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		93718CD81FEA6B0E0055D322 /* JBLTestDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBLTestDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93718CDB1FEA6B0E0055D322 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		93718CDC1FEA6B0E0055D322 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -124,6 +130,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		700330671FF29316007A871C /* NetWork */ = {
+			isa = PBXGroup;
+			children = (
+				700330681FF293AB007A871C /* Http.h */,
+				700330691FF293AB007A871C /* Http.m */,
+			);
+			path = NetWork;
+			sourceTree = "<group>";
+		};
 		93718CCF1FEA6B0E0055D322 = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +169,7 @@
 				93718CDC1FEA6B0E0055D322 /* AppDelegate.m */,
 				93718D101FEA6F2D0055D322 /* LinkOperation.h */,
 				93718D0F1FEA6F2D0055D322 /* LinkOperation.m */,
+				700330671FF29316007A871C /* NetWork */,
 				9395AEBD1FF2573600F266B0 /* PeripheralInfo.h */,
 				9395AEBE1FF2573600F266B0 /* PeripheralInfo.m */,
 				9379CDB11FEB8ACA00592CEF /* OperationFormat.h */,
@@ -236,6 +252,8 @@
 				9379CDBA1FEB8E4500592CEF /* CRC_JBLP.h */,
 				9379CDC11FEBA31300592CEF /* XMLReader.h */,
 				9379CDC21FEBA31300592CEF /* XMLReader.m */,
+				7003306C1FF299EC007A871C /* DeviceInfo.h */,
+				7003306B1FF299EC007A871C /* DeviceInfo.m */,
 			);
 			path = JBLTools;
 			sourceTree = "<group>";
@@ -375,6 +393,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93718CE01FEA6B0E0055D322 /* ViewController.m in Sources */,
+				7003306A1FF293AB007A871C /* Http.m in Sources */,
 				93718CEB1FEA6B0E0055D322 /* main.m in Sources */,
 				9379CDC31FEBA31300592CEF /* XMLReader.m in Sources */,
 				9395AEBF1FF2573600F266B0 /* PeripheralInfo.m in Sources */,
@@ -388,6 +407,7 @@
 				9395AEB91FF250B000F266B0 /* DeviceInfoViewController.m in Sources */,
 				700330651FEAC771007A871C /* DeviceDashboardViewController.m in Sources */,
 				9379CDC61FEBA45800592CEF /* Capability.m in Sources */,
+				7003306D1FF299EC007A871C /* DeviceInfo.m in Sources */,
 				93C43AE61FECA848001D36BE /* JBLThemeModel.m in Sources */,
 				9395AEBC1FF256B600F266B0 /* RootbusinessViewController.m in Sources */,
 			);

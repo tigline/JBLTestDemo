@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import "PeripheralInfo.h"
 
 @interface RootbusinessViewController : UIViewController
 
-
+@property (nonatomic, weak) PeripheralInfo *businessPeripheral;
 
 @end
