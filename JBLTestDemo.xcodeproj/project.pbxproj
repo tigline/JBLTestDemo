@@ -26,6 +26,9 @@
 		9379CDC31FEBA31300592CEF /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9379CDC21FEBA31300592CEF /* XMLReader.m */; };
 		9379CDC61FEBA45800592CEF /* Capability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9379CDC41FEBA45800592CEF /* Capability.m */; };
 		9379CDC91FEBA50000592CEF /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 9379CDC71FEBA50000592CEF /* Model.m */; };
+		9395AEB91FF250B000F266B0 /* DeviceInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9395AEB81FF250B000F266B0 /* DeviceInfoViewController.m */; };
+		9395AEBC1FF256B600F266B0 /* RootbusinessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9395AEBB1FF256B600F266B0 /* RootbusinessViewController.m */; };
+		9395AEBF1FF2573600F266B0 /* PeripheralInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9395AEBE1FF2573600F266B0 /* PeripheralInfo.m */; };
 		93C43AE61FECA848001D36BE /* JBLThemeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C43AE51FECA848001D36BE /* JBLThemeModel.m */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +88,12 @@
 		9379CDC51FEBA45800592CEF /* Capability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capability.h; sourceTree = "<group>"; };
 		9379CDC71FEBA50000592CEF /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		9379CDC81FEBA50000592CEF /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		9395AEB71FF250B000F266B0 /* DeviceInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceInfoViewController.h; sourceTree = "<group>"; };
+		9395AEB81FF250B000F266B0 /* DeviceInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoViewController.m; sourceTree = "<group>"; };
+		9395AEBA1FF256B600F266B0 /* RootbusinessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RootbusinessViewController.h; path = JBLTestDemo/controller/RootbusinessViewController.h; sourceTree = SOURCE_ROOT; };
+		9395AEBB1FF256B600F266B0 /* RootbusinessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RootbusinessViewController.m; path = JBLTestDemo/controller/RootbusinessViewController.m; sourceTree = SOURCE_ROOT; };
+		9395AEBD1FF2573600F266B0 /* PeripheralInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeripheralInfo.h; sourceTree = "<group>"; };
+		9395AEBE1FF2573600F266B0 /* PeripheralInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeripheralInfo.m; sourceTree = "<group>"; };
 		93C43AE41FECA848001D36BE /* JBLThemeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBLThemeModel.h; sourceTree = "<group>"; };
 		93C43AE51FECA848001D36BE /* JBLThemeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBLThemeModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,32 +148,18 @@
 		93718CDA1FEA6B0E0055D322 /* JBLTestDemo */ = {
 			isa = PBXGroup;
 			children = (
+				9395AEB51FF1FBBF00F266B0 /* controller */,
+				9395AEB61FF1FBF300F266B0 /* JBLTools */,
 				93718CDB1FEA6B0E0055D322 /* AppDelegate.h */,
 				93718CDC1FEA6B0E0055D322 /* AppDelegate.m */,
-				93718CDE1FEA6B0E0055D322 /* ViewController.h */,
-				93718CDF1FEA6B0E0055D322 /* ViewController.m */,
 				93718D101FEA6F2D0055D322 /* LinkOperation.h */,
 				93718D0F1FEA6F2D0055D322 /* LinkOperation.m */,
-				9379CDBE1FEBA1CF00592CEF /* JBLProduct.h */,
-				9379CDBF1FEBA1CF00592CEF /* JBLProduct.m */,
-				9379CDC81FEBA50000592CEF /* Model.h */,
-				9379CDC71FEBA50000592CEF /* Model.m */,
-				93C43AE41FECA848001D36BE /* JBLThemeModel.h */,
-				93C43AE51FECA848001D36BE /* JBLThemeModel.m */,
-				9379CDC51FEBA45800592CEF /* Capability.h */,
-				9379CDC41FEBA45800592CEF /* Capability.m */,
+				9395AEBD1FF2573600F266B0 /* PeripheralInfo.h */,
+				9395AEBE1FF2573600F266B0 /* PeripheralInfo.m */,
 				9379CDB11FEB8ACA00592CEF /* OperationFormat.h */,
 				9379CDB21FEB8ACA00592CEF /* OperationFormat.m */,
-				9379CDB91FEB8E4500592CEF /* Constants_JBLP.h */,
-				9379CDBA1FEB8E4500592CEF /* CRC_JBLP.h */,
-				93718D0E1FEA6F2D0055D322 /* SearchDeviceTableViewController.h */,
-				93718D0D1FEA6F2D0055D322 /* SearchDeviceTableViewController.m */,
 				700330601FEAA24E007A871C /* DeviceTableViewCell.h */,
 				700330611FEAA24E007A871C /* DeviceTableViewCell.m */,
-				700330631FEAC771007A871C /* DeviceDashboardViewController.h */,
-				700330641FEAC771007A871C /* DeviceDashboardViewController.m */,
-				9379CDC11FEBA31300592CEF /* XMLReader.h */,
-				9379CDC21FEBA31300592CEF /* XMLReader.m */,
 				93718CE11FEA6B0E0055D322 /* Main.storyboard */,
 				93718CE41FEA6B0E0055D322 /* Assets.xcassets */,
 				93718CE61FEA6B0E0055D322 /* LaunchScreen.storyboard */,
@@ -207,6 +202,42 @@
 				9379CDBC1FEB96D800592CEF /* JBLProduct.bundle */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		9395AEB51FF1FBBF00F266B0 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				93718CDE1FEA6B0E0055D322 /* ViewController.h */,
+				93718CDF1FEA6B0E0055D322 /* ViewController.m */,
+				93718D0E1FEA6F2D0055D322 /* SearchDeviceTableViewController.h */,
+				93718D0D1FEA6F2D0055D322 /* SearchDeviceTableViewController.m */,
+				700330631FEAC771007A871C /* DeviceDashboardViewController.h */,
+				700330641FEAC771007A871C /* DeviceDashboardViewController.m */,
+				9395AEB71FF250B000F266B0 /* DeviceInfoViewController.h */,
+				9395AEB81FF250B000F266B0 /* DeviceInfoViewController.m */,
+				9395AEBA1FF256B600F266B0 /* RootbusinessViewController.h */,
+				9395AEBB1FF256B600F266B0 /* RootbusinessViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		9395AEB61FF1FBF300F266B0 /* JBLTools */ = {
+			isa = PBXGroup;
+			children = (
+				9379CDBE1FEBA1CF00592CEF /* JBLProduct.h */,
+				9379CDBF1FEBA1CF00592CEF /* JBLProduct.m */,
+				9379CDC81FEBA50000592CEF /* Model.h */,
+				9379CDC71FEBA50000592CEF /* Model.m */,
+				93C43AE41FECA848001D36BE /* JBLThemeModel.h */,
+				93C43AE51FECA848001D36BE /* JBLThemeModel.m */,
+				9379CDC51FEBA45800592CEF /* Capability.h */,
+				9379CDC41FEBA45800592CEF /* Capability.m */,
+				9379CDB91FEB8E4500592CEF /* Constants_JBLP.h */,
+				9379CDBA1FEB8E4500592CEF /* CRC_JBLP.h */,
+				9379CDC11FEBA31300592CEF /* XMLReader.h */,
+				9379CDC21FEBA31300592CEF /* XMLReader.m */,
+			);
+			path = JBLTools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,6 +377,7 @@
 				93718CE01FEA6B0E0055D322 /* ViewController.m in Sources */,
 				93718CEB1FEA6B0E0055D322 /* main.m in Sources */,
 				9379CDC31FEBA31300592CEF /* XMLReader.m in Sources */,
+				9395AEBF1FF2573600F266B0 /* PeripheralInfo.m in Sources */,
 				9379CDC91FEBA50000592CEF /* Model.m in Sources */,
 				93718D121FEA6F2D0055D322 /* LinkOperation.m in Sources */,
 				93718CDD1FEA6B0E0055D322 /* AppDelegate.m in Sources */,
@@ -353,9 +385,11 @@
 				700330621FEAA24E007A871C /* DeviceTableViewCell.m in Sources */,
 				9379CDB31FEB8ACA00592CEF /* OperationFormat.m in Sources */,
 				9379CDC01FEBA1D000592CEF /* JBLProduct.m in Sources */,
+				9395AEB91FF250B000F266B0 /* DeviceInfoViewController.m in Sources */,
 				700330651FEAC771007A871C /* DeviceDashboardViewController.m in Sources */,
 				9379CDC61FEBA45800592CEF /* Capability.m in Sources */,
 				93C43AE61FECA848001D36BE /* JBLThemeModel.m in Sources */,
+				9395AEBC1FF256B600F266B0 /* RootbusinessViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

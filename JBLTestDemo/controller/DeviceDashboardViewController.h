@@ -17,5 +17,8 @@
 @property (weak, nonatomic) IBOutlet UISlider *slide;
 @property (weak, nonatomic) IBOutlet UIPickerView *SpeakThemePicker;
 @property (weak, nonatomic) IBOutlet UISwitch *modeSwitchBtn;
+@property (weak, nonatomic) IBOutlet UIButton *partyButton;
+@property (weak, nonatomic) IBOutlet UIButton *stereoButton;
+
 
 @end

@@ -21,7 +21,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view layoutIfNeeded];
     self.title = _peripheral.name;
+    
+    _partyButton.layer.cornerRadius = _partyButton.frame.size.width*0.05f;
+    _stereoButton.layer.cornerRadius = _stereoButton.frame.size.width*0.05f;
+    _slide.layer.cornerRadius = _slide.frame.size.width*0.05f;
+    
+    //UINavigationItem *setItem = [[UINavigationItem alloc]init];
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(gotoSetViewController)];
+    self.navigationItem.rightBarButtonItem = setButton;
+    
+    
     NSArray *themeArrayBySource = [_operation loadJBLThemes];
     themeArray = [NSMutableArray new];
     for(int i = 0; i< [themeArrayBySource count];i++)
@@ -30,6 +41,7 @@
         //[theme updateThemeCurrentRGBValue:[themeArray objectAtIndex:i]];
         [themeArray addObject:theme];
     }
+    
     
     [self setupDeviceStatus];
     //
@@ -94,7 +106,9 @@
         [_operation setCurrentBrightNess:brightnessValue];
 }
 
-
+- (void)gotoSetViewController {
+    
+}
 
 
 /*
