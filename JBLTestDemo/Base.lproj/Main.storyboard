@@ -53,6 +53,9 @@
                             </switch>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p6X-Y0-gav">
                                 <rect key="frame" x="295" y="479" width="51" height="31"/>
+                                <connections>
+                                    <action selector="setFeedbackToneValue:" destination="Jcc-cu-VVu" eventType="valueChanged" id="xMh-ue-Xjm"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFQ-gS-TEe">
                                 <rect key="frame" x="28" y="484" width="120" height="21"/>
@@ -100,9 +103,12 @@
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2eb-WE-gRH">
                                 <rect key="frame" x="295" y="526" width="51" height="31"/>
+                                <connections>
+                                    <action selector="setSpeakPhone:" destination="Jcc-cu-VVu" eventType="valueChanged" id="zCT-Dd-YxO"/>
+                                </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Speak phone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ooN-6z-5Y6">
-                                <rect key="frame" x="28" y="531" width="101" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Speaker phone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ooN-6z-5Y6">
+                                <rect key="frame" x="28" y="531" width="116" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="101" id="T44-LF-IWc"/>
                                 </constraints>
@@ -122,6 +128,7 @@
                             <constraint firstItem="yyD-Dm-iO7" firstAttribute="trailing" secondItem="p6X-Y0-gav" secondAttribute="trailing" id="85w-F1-KT8"/>
                             <constraint firstItem="O3r-9n-Dh9" firstAttribute="leading" secondItem="RFQ-gS-TEe" secondAttribute="leading" id="A8u-aT-COl"/>
                             <constraint firstItem="RFQ-gS-TEe" firstAttribute="top" secondItem="L4d-UF-xkf" secondAttribute="bottom" constant="27" id="H4Z-EG-mN9"/>
+                            <constraint firstItem="2eb-WE-gRH" firstAttribute="leading" relation="lessThanOrEqual" secondItem="ooN-6z-5Y6" secondAttribute="trailing" constant="151" id="IXJ-Gu-0qT"/>
                             <constraint firstItem="xdd-it-5eX" firstAttribute="trailing" secondItem="tAV-hE-bTi" secondAttribute="trailing" id="Jng-F3-EMp"/>
                             <constraint firstItem="D0T-hM-NwY" firstAttribute="leading" secondItem="RZy-8o-SFn" secondAttribute="leading" constant="32" id="KoB-kP-jzS"/>
                             <constraint firstItem="2eb-WE-gRH" firstAttribute="trailing" secondItem="p6X-Y0-gav" secondAttribute="trailing" id="LCK-rF-baH"/>
@@ -135,6 +142,7 @@
                             <constraint firstItem="p6X-Y0-gav" firstAttribute="trailing" secondItem="pBh-iH-Sn8" secondAttribute="trailing" id="ZWP-oF-6ZY"/>
                             <constraint firstItem="RFQ-gS-TEe" firstAttribute="centerY" secondItem="p6X-Y0-gav" secondAttribute="centerY" id="cpb-25-vuY"/>
                             <constraint firstItem="O3r-9n-Dh9" firstAttribute="centerY" secondItem="yyD-Dm-iO7" secondAttribute="centerY" id="dLH-zy-84x"/>
+                            <constraint firstItem="yyD-Dm-iO7" firstAttribute="leading" relation="lessThanOrEqual" secondItem="O3r-9n-Dh9" secondAttribute="trailing" constant="56" id="eVs-bv-P74"/>
                             <constraint firstItem="tAV-hE-bTi" firstAttribute="top" secondItem="yL7-9x-KHj" secondAttribute="bottom" constant="19" id="etz-fM-j2J"/>
                             <constraint firstItem="L4d-UF-xkf" firstAttribute="top" secondItem="tAV-hE-bTi" secondAttribute="bottom" constant="19" id="hwe-gz-iFM"/>
                             <constraint firstItem="O3r-9n-Dh9" firstAttribute="top" secondItem="yyD-Dm-iO7" secondAttribute="top" id="mOn-uL-tGl"/>
@@ -144,17 +152,19 @@
                             <constraint firstItem="D0T-hM-NwY" firstAttribute="top" secondItem="e5t-2y-dUO" secondAttribute="bottom" constant="20" id="s0X-44-CDb"/>
                             <constraint firstItem="tAV-hE-bTi" firstAttribute="leading" secondItem="yL7-9x-KHj" secondAttribute="leading" id="tgf-hh-38N"/>
                             <constraint firstItem="yyD-Dm-iO7" firstAttribute="width" secondItem="O3r-9n-Dh9" secondAttribute="width" id="uWn-6Z-AxF"/>
+                            <constraint firstItem="p6X-Y0-gav" firstAttribute="leading" relation="lessThanOrEqual" secondItem="RFQ-gS-TEe" secondAttribute="trailing" constant="147" id="wnq-We-BNC"/>
                             <constraint firstItem="yyD-Dm-iO7" firstAttribute="top" secondItem="2eb-WE-gRH" secondAttribute="bottom" constant="18" id="xOn-s9-Rdm"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="SpeakPhoneValue" destination="2eb-WE-gRH" id="2jA-eu-trM"/>
                         <outlet property="SpeakThemePicker" destination="tAV-hE-bTi" id="kI6-SW-wMb"/>
+                        <outlet property="feedbackValue" destination="p6X-Y0-gav" id="rHi-e1-HQ6"/>
                         <outlet property="modeSwitchBtn" destination="pBh-iH-Sn8" id="mel-89-vfc"/>
                         <outlet property="partyButton" destination="O3r-9n-Dh9" id="YgM-ne-Auq"/>
                         <outlet property="slide" destination="xdd-it-5eX" id="fxe-kF-L2G"/>
                         <outlet property="stereoButton" destination="yyD-Dm-iO7" id="cri-N5-iX2"/>
-                        <segue destination="Q0I-Pn-9Jd" kind="show" id="L9H-7X-xCW"/>
-                        <segue destination="Ool-5C-U37" kind="show" id="bC7-ia-ZNO"/>
+                        <segue destination="Q0I-Pn-9Jd" kind="show" identifier="goToInfoView" id="L9H-7X-xCW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAZ-1h-b50" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -251,43 +261,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NMe-Sr-peR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4392.8000000000002" y="103.89805097451276"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="jHX-iH-aMF">
-            <objects>
-                <viewController id="VE7-Zf-2GJ" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="XtP-HA-2hU"/>
-                        <viewControllerLayoutGuide type="bottom" id="e0S-qb-7Ri"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="QFM-YZ-bza">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="XUO-EM-Ru7"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ui8-E7-My5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5385" y="107"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="Yy3-EC-pJn">
-            <objects>
-                <viewController id="Ool-5C-U37" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="R6L-d1-BQL"/>
-                        <viewControllerLayoutGuide type="bottom" id="wAa-oO-fma"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="5wm-cq-m6d">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OqX-gf-gL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4393" y="949"/>
         </scene>
         <!--DeviceList-->
         <scene sceneID="a4o-eL-cJ3">

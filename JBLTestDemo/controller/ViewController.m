@@ -36,7 +36,9 @@
     _operation = [[LinkOperation alloc] init];
     _operation.delegate = self;
 //    operation.operationDelegate = self;
-    [_operation searchlinkDevice];
+    [_operation searchlinkDevice:^(BOOL successVaule) {
+        
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated

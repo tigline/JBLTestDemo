@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
-
+#import "DeviceInfo.h"
 
 
 @interface PeripheralInfo : NSObject<NSURLSessionDelegate>
@@ -25,7 +25,6 @@
 
 //0 upgrade bt  ;2 upgrade mcu ; 3 upgrade bt&&mcu
 @property (assign, nonatomic) NSInteger upgradeType;
-
 
 
 @end

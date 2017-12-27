@@ -13,11 +13,19 @@
 #import "DeviceInfo.h"
 
 
+
+
 typedef void (^bluetoothStateBlock)(CBManagerState state); //Bluetooth State Block
 typedef void (^peripheralConnectionBlock)(BOOL isConnect); // Connection block
 typedef void (^JBLGetMfbCommandBlock)(uChar CMD);
-typedef void (^JBLgetBrightnessBlock)(NSUInteger brightness);;
+typedef void (^JBLgetBrightnessBlock)(NSUInteger brightness);
 typedef void (^JBLMfbCommandBlock)(BOOL isSuccess);
+//typedef void (^GetFeedbackToneBlock)(BOOL feedbackToneValue);
+typedef void (^JBLGetFeedbackToneBlock)(BOOL feedbackToneValue);
+typedef void (^JBLGetHFPStatusBlock)(BOOL hfpStatusValue);
+typedef void (^JBLConnectSuccessBlock)(BOOL successVaule);
+typedef void (^JBLGetLedPatternsBlock)(NSInteger ledPatternIndex);
+typedef void(^JBLNotifyLedPatternsBlock)(unsigned int themeId);
 
 
 @protocol PeripheralOperationDelegate <NSObject>
@@ -69,6 +77,14 @@ typedef void (^JBLMfbCommandBlock)(BOOL isSuccess);
 @property (nonatomic, copy) JBLgetBrightnessBlock getBrightnessBlock;
 
 @property (nonatomic, copy) JBLMfbCommandBlock mfbCommandBlock;
+
+@property (nonatomic, copy) JBLGetFeedbackToneBlock feedbackToneBlock;
+
+@property (nonatomic, copy) JBLGetHFPStatusBlock getHFPStatusBlock;
+
+@property (nonatomic, copy) JBLConnectSuccessBlock connectSuccessBlock;
+
+@property (nonatomic, copy) JBLNotifyLedPatternsBlock getNotifyLedPatternBlock;
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
@@ -124,12 +140,11 @@ typedef void (^JBLMfbCommandBlock)(BOOL isSuccess);
 
 - (void)readDeviceInfo:(NSData *)data;
 
--(void)getCurrentBrightNess;
 
 /**
  *  扫描设备
  */
-- (void)searchlinkDevice;
+- (void)searchlinkDevice:(JBLConnectSuccessBlock)connectSuccessBlock;
 
 /**
  *  写数据
@@ -159,10 +174,25 @@ typedef void (^JBLMfbCommandBlock)(BOOL isSuccess);
 - (void)getRetDevInfo;
 
 - (NSMutableArray *)loadJBLThemes;
+
 - (void)updateThemes:(unsigned int)themeId andRGBData:(NSData *)RGBData;
 
 - (void)getButtonMode:(void (^) (uChar mode))block;
--(void)getCurrentBrightNess:(void(^)(NSUInteger brightness))block;
+
+- (void)getCurrentBrightNess:(void(^)(NSUInteger brightness))block;
+
 - (void)setButtonMode:(ButtonMode)mode status:(void (^) (BOOL success))block;
+
+- (void)setFeedbackToneValue:(BOOL)feedbackValue;
+
+- (void)getFeedbackToneValue:(JBLGetFeedbackToneBlock)feedbackToneBlock;
+
+- (void)getHFPStatusValue:(JBLGetHFPStatusBlock)getHFPStatusBlock;
+
+- (void)setHFPStatusValue:(BOOL)hfpValueEnabled;
+
+//- (void)getAllLedPatternInfoWithHandler;
+
+- (void)getLedPatternInfo:(JBLNotifyLedPatternsBlock)block;
 
 @end

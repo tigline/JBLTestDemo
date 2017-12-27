@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UISwitch *modeSwitchBtn;
 @property (weak, nonatomic) IBOutlet UIButton *partyButton;
 @property (weak, nonatomic) IBOutlet UIButton *stereoButton;
+@property (weak, nonatomic) IBOutlet UISwitch *feedbackValue;
+@property (weak, nonatomic) IBOutlet UISwitch *SpeakPhoneValue;
 
 
 @end

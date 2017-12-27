@@ -9,6 +9,7 @@
 #import "Constants_JBLP.h"
 #import "JBLProduct.h"
 #import "XMLReader.h"
+#import "JBLThemeModel.h"
 // Classes
 //#import "CommandCode.h"
 //#import "AnalysisCommandCode.h"
@@ -108,15 +109,15 @@
 }
 
 //搜索蓝牙设备
-- (void)searchlinkDevice
+- (void)searchlinkDevice:(JBLConnectSuccessBlock)connectSuccessBlock
 {
-    // 实现代理
-    // 扫描设备
+
 //    _centeralManager = [[CBCentralManager alloc] initWithDelegate:self
 //                                                            queue:nil];
-    
+    _connectSuccessBlock = connectSuccessBlock;
     if(self.centeralManager.state == CBManagerStatePoweredOff) {
         // 蓝牙关闭的
+        
         
     } else if(self.centeralManager.state == CBManagerStateUnsupported) {
         // 设备不支持蓝牙
@@ -198,20 +199,19 @@
         }
         _connectPeripheral = peripheral;
         //    [self.centeralManager connectPeripheral:peripheral options:nil];
-        if (_connectPeripheral.state != CBPeripheralStateConnected) {
-            return;
-        }
-       
+//        if (_connectPeripheral.state != CBPeripheralStateConnected) {
+//            return;
+//        }
+        
         if (advertisementData[@"kCBAdvDataLocalName"] != nil || peripheral.name != nil){
             NSLog(@"已搜索到设备");
             NSLog(@"peripheral.identifier = %@  peripheral.name = %@", peripheral.identifier, peripheral.name);
             
             [_delegate getAdvertisementData:advertisementData andPeripheral:peripheral];
             [_peripheralArray addObject:peripheral];
+            _connectSuccessBlock(YES);
         }
-        
-        
-        
+
     }
     
     //4.addArray
@@ -318,7 +318,7 @@
     [self.centeralManager stopScan];
     
     peripheral.delegate = self;
-    _connectionState(YES);
+    
     
     dispatch_after(2, dispatch_get_main_queue(), ^{
         
@@ -382,6 +382,11 @@
         
         [_connectPeripheral setNotifyValue:YES forCharacteristic:self.RX_characteristic];
         [_connectPeripheral setNotifyValue:YES forCharacteristic:self.TX_characteristic];
+        
+        [self getFeedbackToneValue:^(BOOL feedbackToneValue) {
+            
+        }];
+        _connectionState(YES);
         NSLog(@"find characteristics");
 
     }
@@ -427,21 +432,53 @@
     [self writeCharacter:retDevInfoData];
 }
 
+-(void)setFeedbackToneValue:(BOOL)feedbackValue {
+    unsigned int feedbackToneValue = feedbackValue == YES ? 1:0;
+    NSData *data = [OperationFormat setFeedbacktonePacket:feedbackToneValue];
+    [self writeCharacter:data];
+    //_feedbackToneEnabled = feedbackValue;
+}
+
+-(void)getFeedbackToneValue:(JBLGetFeedbackToneBlock)feedbackToneBlock {
+
+    NSData *data = [OperationFormat reqFeedbackTonePacket];
+    [self writeCharacter:data];
+    _feedbackToneBlock = feedbackToneBlock;
+    
+}
+
+- (void)getHFPStatusValue:(JBLGetHFPStatusBlock)getHFPStatusBlock {
+    NSData *data = [OperationFormat reqHFPStatusPacket];
+    [self writeCharacter:data];
+    _getHFPStatusBlock = getHFPStatusBlock;
+}
+
+- (void)setHFPStatusValue:(BOOL)hfpValueEnabled {
+    unsigned int hfpStatusValue = hfpValueEnabled == YES ? 1:0;
+    NSData *data = [OperationFormat setHFPPacket:hfpStatusValue];
+    [self writeCharacter:data];
+
+}
+
+- (void)getAllLedPatternInfoWithHandler {
+    NSData *data = [OperationFormat reqLedPatternInfo];
+    [self writeCharacter:data];
+    
+}
+
+-(void)getJBLLedPattern {
+    [self getAllLedPatternInfoWithHandler];
+}
+
+- (void)getLedPatternInfo:(JBLNotifyLedPatternsBlock)block {
+    _getNotifyLedPatternBlock  = block;
+}
 
 
 // 写数据
 - (void)writeCharacter:(NSData *)data
 {
-//    NSLog(@" characteristic.uuid = %@ data ==== %@", _readAndWriteCharacteristic.UUID.UUIDString, data);
-//    if ([_readAndWriteCharacteristic.UUID isEqual:[CBUUID UUIDWithString:kCGMCharacteristicOneUUID]]) {
-//        [_connectPeripheral writeValue:data
-//                        forCharacteristic:_readAndWriteCharacteristic
-//                                     type:CBCharacteristicWriteWithResponse];
-//    } else {
-//        [_connectPeripheral writeValue:data
-//                        forCharacteristic:_readAndWriteCharacteristic
-//                                     type:CBCharacteristicWriteWithResponse];
-//    }
+
     if(_connectPeripheral.state == CBPeripheralStateConnected) {
         dispatch_async(_queuePer, ^{
             if (_TX_characteristic) {
@@ -478,10 +515,11 @@
             if (_getMfbCommandBlock) {
                 _getMfbCommandBlock(mfbStatus);
             }
-            
         }
             break;
         case eRetDevInfo_JBLP:
+            
+            [self getAllLedPatternInfoWithHandler];
             
             break;
         case eDeviceUpgradeStatus_JBLP:
@@ -498,6 +536,64 @@
             }
             break;
         }
+        case RetFeedbackTone:{
+            unsigned int feedbackToneValue = [OperationFormat parseFeedbackTonePacketWithData:dataValue];
+            BOOL _feedbackToneEnabled;
+            _feedbackToneEnabled = feedbackToneValue == 1 ? YES:NO;
+            if(_feedbackToneBlock) {
+                _feedbackToneBlock(_feedbackToneEnabled);
+            }
+            break;
+        }
+        case RetHFPStatus:
+        {
+            unsigned int hfpStatusValue = [OperationFormat parseHFPPacketWithData:dataValue];
+            BOOL _hfpEnabled;
+             _hfpEnabled = hfpStatusValue == 1 ? YES:NO;
+            if(_getHFPStatusBlock) {
+                _getHFPStatusBlock (_hfpEnabled);
+            }
+        }
+            break;
+        
+        case eRetLedPattern:
+        {
+//            NSArray *tempThemeArray = [[NSArray alloc] initWithArray:[OperationFormat parseRetLedPatternsWithData:dataValue]];
+//            NSArray *defaultThemeArray = [self loadJBLThemes];
+//            if([themeArray count]>0){
+//                return ;  // Retrun beacuse we already have all theme objects in array
+//                //[themeArray removeAllObjects];
+//            }
+            NSDictionary *themeDic = [OperationFormat parseNotifyLedPatternWithData:dataValue];
+            //NSArray *tempArray = [self loadJBLThemes];
+            if (nil == themeDic) {
+                return;
+            }
+            unsigned int themeId = [[themeDic objectForKey:@"THEMEID"] unsignedIntValue];
+            
+            if(_getNotifyLedPatternBlock){
+                _getNotifyLedPatternBlock(themeId);
+            }
+        }
+            break;
+            
+        case eNotifyLEDPattern:
+        {
+         
+//            NSDictionary *themeDic = [OperationFormat parseNotifyLedPatternWithData:dataValue];
+//            //NSArray *tempArray = [self loadJBLThemes];
+//            if (nil == themeDic) {
+//                return;
+//            }
+//            unsigned int themeId = [[themeDic objectForKey:@"THEMEID"] unsignedIntValue];
+//
+//            if(_getNotifyLedPatternBlock){
+//                _getNotifyLedPatternBlock(themeId);
+//            }
+            //_getNotifyLedPatternBlock(6);
+            
+        }
+            break;
         default:
             break;
     }

@@ -196,6 +196,111 @@
     return data;
 }
 
++ (NSData *)setFeedbacktonePacket:(unsigned int)feedbacktoneValue {
+    char temp[4] = {};
+    temp[0] = 0xAA; //identifier
+    temp[1] = SetFeedbackTone; // Command-id
+    temp[2] = 0x01; // Payload len
+    temp[3] = feedbacktoneValue;
+    NSData *data = [NSData dataWithBytes:temp length:4];
+    return data;
+}
+
++ (NSData *)reqFeedbackTonePacket {
+    char temp[3] = {};
+    temp[0] = 0xAA; //identifier
+    temp[1] = ReqFeedbackTone; // Command-id
+    temp[2] =  0x00; // Payload len
+    NSData *data = [NSData dataWithBytes:temp length:3];
+    return data;
+}
+
++ (NSData *)reqHFPStatusPacket {
+    char temp[3] = {};
+    temp[0] = 0xAA; //identifier
+    temp[1] = ReqHFPStatus; // Command-id
+    temp[2] =  0x00; // Payload len
+    NSData *data = [NSData dataWithBytes:temp length:3];
+    return data;
+}
+
++ (NSData *)setHFPPacket:(unsigned int)hfpValue { 
+    char temp[4] = {};
+    temp[0] = 0xAA; //identifier
+    temp[1] = SetHFPStatus; // Command-id
+    temp[2] = 0x01; // Payload len
+    temp[3] = hfpValue;
+    NSData *data = [NSData dataWithBytes:temp length:4];
+    return data;
+}
+
++ (unsigned int)parseFeedbackTonePacketWithData:(NSData *)dataValue {
+    Byte *pByte = (Byte *)[dataValue bytes]; //
+    NSData *feedbackToneValue = [NSData dataWithBytes:(pByte +3) length:1];
+    
+    unsigned int feedbackTone = 0;
+    [feedbackToneValue getBytes:&feedbackTone length:sizeof(feedbackTone)];
+    
+
+    return feedbackTone;
+}
+
++ (unsigned int)parseHFPPacketWithData:(NSData*)dataValue {
+    Byte *pByte = (Byte *)[dataValue bytes]; //
+    NSData *hfpStatusValue = [NSData dataWithBytes:(pByte +3) length:1];
+    
+    unsigned int hfpStatus = 0;
+    [hfpStatusValue getBytes:&hfpStatus length:sizeof(hfpStatus)];
+    
+
+    return hfpStatus;
+}
 
 
++ (NSData *)reqLedPatternInfo
+{
+    char temp[3] = {};
+    temp[0] = 0xAA;             // identifier
+    temp[1] = eReqLedPattern;      //
+    temp[2] = 0x00;             // payload len
+    NSData *data = [NSData dataWithBytes:temp length:3];
+    return data;
+}
+
++ (NSArray *)parseRetLedPatternsWithData:(NSData *)data
+{
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    Byte *pByte = (Byte *)[data bytes]; // NSData to Byte
+    for(NSUInteger temp = 0; temp<8;temp++){
+        NSData *rgbData  = nil;
+        rgbData = [NSData dataWithBytes:(pByte +(3+(5*temp))) length:5];
+        unsigned char rgb[5] = {0,0,0,0,0};
+        [rgbData getBytes:&rgb length:sizeof(rgb)];
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setObject:[NSString stringWithFormat:@"%d",rgb[0]] forKey:@"THEMEID"];
+        [dic setObject:[NSString stringWithFormat:@"%d",rgb[1]] forKey:@"RED"];
+        [dic setObject:[NSString stringWithFormat:@"%d",rgb[2]] forKey:@"GREEN"];
+        [dic setObject:[NSString stringWithFormat:@"%d",rgb[3]] forKey:@"BLUE"];
+        [dic setObject:[NSString stringWithFormat:@"%d",rgb[4]] forKey:@"RESET"];
+        [array addObject:dic];
+    }
+    return array;
+}
+
+
+
++(NSDictionary *)parseNotifyLedPatternWithData:(NSData *)data
+{
+    Byte *pByte = (Byte *)[data bytes]; // NSData to Byte
+    NSData *rgbData  = [NSData dataWithBytes:(pByte +(3)) length:5];
+    unsigned char rgb[5] = {0,0,0,0,0};
+    [rgbData getBytes:&rgb length:sizeof(rgb)];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setObject:[NSString stringWithFormat:@"%d",rgb[0]] forKey:@"THEMEID"];
+    [dic setObject:[NSString stringWithFormat:@"%d",rgb[1]] forKey:@"RED"];
+    [dic setObject:[NSString stringWithFormat:@"%d",rgb[2]] forKey:@"GREEN"];
+    [dic setObject:[NSString stringWithFormat:@"%d",rgb[3]] forKey:@"BLUE"];
+    [dic setObject:[NSString stringWithFormat:@"%d",rgb[4]] forKey:@"RESET"];
+    return dic;
+}
 @end

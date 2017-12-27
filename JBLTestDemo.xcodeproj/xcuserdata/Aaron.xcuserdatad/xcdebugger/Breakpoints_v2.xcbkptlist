@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JBLTestDemo/LinkOperation.m"
-            timestampString = "535966099.807904"
+            timestampString = "536062102.442347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "-centralManager:didDiscoverPeripheral:advertisementData:RSSI:"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JBLTestDemo/LinkOperation.m"
-            timestampString = "535966099.808191"
+            timestampString = "536062102.442439"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
             landmarkName = "-centralManager:didDiscoverPeripheral:advertisementData:RSSI:"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JBLTestDemo/LinkOperation.m"
-            timestampString = "535966099.808381"
+            timestampString = "536062102.442513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "532"
-            endingLineNumber = "532"
+            startingLineNumber = "643"
+            endingLineNumber = "643"
             landmarkName = "-peripheral:didWriteValueForCharacteristic:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JBLTestDemo/LinkOperation.m"
-            timestampString = "535966099.808585"
+            timestampString = "536062102.442585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
-            landmarkName = "-peripheral:didUpdateNotificationStateForCharacteristic:error:"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
+            landmarkName = "-getFeedbackToneValue:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

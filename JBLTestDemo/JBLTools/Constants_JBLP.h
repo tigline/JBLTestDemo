@@ -124,6 +124,12 @@ typedef NS_ENUM(NSInteger, AudioMode){
     kDjAudioMode,
 };
 
+//typedef NS_ENUM(NSInteger, BluetoothState){
+//    kDeviceModeNormal = 0,
+//    kDeviceModeBroadcaster = 1,
+//    kDeviceModeReceiver = 2,
+//};
+
 typedef NS_ENUM(NSInteger, DeviceMode){
     kDeviceModeNormal = 0,
     kDeviceModeBroadcaster = 1,

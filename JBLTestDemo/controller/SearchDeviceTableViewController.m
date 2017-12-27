@@ -63,15 +63,25 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [_operation searchlinkDevice];
+    if (_operation.connectPeripheral.state == CBPeripheralStateConnected) {
+        return;
+    }
+    [_searchIndictorView startAnimating];
+    [_operation searchlinkDevice:^(BOOL successVaule) {
+        if (successVaule) {
+            [_searchIndictorView stopAnimating];
+        }else {
+            
+        }
+    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [_advertisementData removeAllObjects];
-    [_peripherArray removeAllObjects];
-    [_operation stopScan];
+    [super viewDidDisappear:animated];
+//    [_advertisementData removeAllObjects];
+//    [_peripherArray removeAllObjects];
+    //[_operation stopScan];
     //_operation.connectPeripheral = nil;
 }
 
@@ -136,7 +146,7 @@
     NSNumber *number = [NSNumber numberWithInteger:indexPath.row];
     
     if (_operation.connectPeripheral.state == CBPeripheralStateConnected) {
-        [self.navigationController performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
+        [self performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
     }
     else
     {
@@ -145,7 +155,7 @@
                 [_searchIndictorView stopAnimating];
                 [self.tableView setScrollEnabled:YES];
                 [self performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
-                [_operation getRetDevInfo];
+                //[_operation getRetDevInfo];
             }
         }];
     }
