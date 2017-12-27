@@ -11,7 +11,21 @@
 
 
 
-@interface PeripheralInfo : NSObject
+@interface PeripheralInfo : NSObject<NSURLSessionDelegate>
+
+@property (nonatomic, strong) CBPeripheral *peripheral;
+
+@property (nonatomic, strong) NSDictionary *advertisementData;
+
+@property (nonatomic, strong) DeviceInfo *deviceInfo;
+
+@property (nonatomic,copy) NSString *otaUrl;
+
+@property (nonatomic,copy) NSString *whatsNewUrl;
+
+//0 upgrade bt  ;2 upgrade mcu ; 3 upgrade bt&&mcu
+@property (assign, nonatomic) NSInteger upgradeType;
+
 
 
 @end

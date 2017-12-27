@@ -185,5 +185,17 @@
     return data;  // no return
 }
 
++ (NSData *)reqDevInfoPacketFormat
+{
+    char temp[3] = {};
+    temp[0] = 0xAA;             // identifier
+    temp[1] = eReqDevInfo_JBLP;      // 0x11
+    temp[2] = 0x00;             // payload len
+    
+    NSData *data = [NSData dataWithBytes:temp length:3];
+    return data;
+}
+
+
 
 @end

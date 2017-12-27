@@ -10,6 +10,7 @@
 
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "Constants_JBLP.h"
+#import "DeviceInfo.h"
 
 
 typedef void (^bluetoothStateBlock)(CBManagerState state); //Bluetooth State Block
@@ -61,7 +62,7 @@ typedef void (^JBLMfbCommandBlock)(BOOL isSuccess);
 
 @end
 
-@interface LinkOperation : NSObject
+@interface LinkOperation : NSObject<NSURLSessionDelegate>
 
 @property (nonatomic, copy) JBLGetMfbCommandBlock getMfbCommandBlock;
 
@@ -141,7 +142,21 @@ typedef void (^JBLMfbCommandBlock)(BOOL isSuccess);
 /**
  *  读数据
  */
+
+@property (nonatomic, strong) DeviceInfo *deviceInfo;
+
+@property (nonatomic,copy) NSString *otaUrl;
+
+@property (nonatomic,copy) NSString *whatsNewUrl;
+
+//0 upgrade bt  ;2 upgrade mcu ; 3 upgrade bt&&mcu
+@property (assign, nonatomic) NSInteger upgradeType;
+
+- (void)checkUpdate:(void (^)(NSDictionary *updateInfoDict, NSError *error))updateInfo;
+
 - (void)readCharacter;
+
+- (void)getRetDevInfo;
 
 - (NSMutableArray *)loadJBLThemes;
 - (void)updateThemes:(unsigned int)themeId andRGBData:(NSData *)RGBData;
