@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+
 
 
 @interface PeripheralInfo : NSObject
+
 
 @end
