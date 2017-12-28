@@ -5,7 +5,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RootbusinessViewController.h"
 
-@interface SearchDeviceTableViewController : UITableViewController
+@interface SearchDeviceTableViewController : RootbusinessViewController
+
+- (void)showBluetoothDisconnectedAlert;
 
 @end

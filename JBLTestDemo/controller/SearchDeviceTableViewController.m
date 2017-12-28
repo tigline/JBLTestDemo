@@ -16,9 +16,10 @@
 
 @property (nonatomic, strong) NSMutableArray *peripherArray;
 
-@property (nonatomic, strong) UIActivityIndicatorView *searchIndictorView;
+@property (nonatomic, assign) BOOL isSearch;
 
-@property (nonatomic, strong) LinkOperation *operation;
+
+
 
 @end
 
@@ -32,27 +33,15 @@
     
     _peripherArray = [NSMutableArray arrayWithCapacity:0];
     _advertisementData = [NSMutableArray arrayWithCapacity:0];
-    
-    
-    _operation = [[LinkOperation alloc] init];
-    _operation.delegate = self;
-    //    operation.operationDelegate = self;
-    [self setIndicateView];
+    self.operation.delegate = self;
+    self.operation.operationDelegate = self;
+
+    //[self setIndicateView];
     
     
 }
 
-- (void)setIndicateView
-{
-    _searchIndictorView = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0,0,80,80)];
-    _searchIndictorView.center = self.view.center;
-    [_searchIndictorView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
-    [_searchIndictorView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [_searchIndictorView setBackgroundColor:[UIColor lightGrayColor]];
-    [self.view addSubview:_searchIndictorView];
-    //[_searchIndictorView startAnimating];
-    //[self.tableView setScrollEnabled:NO];
-}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -63,15 +52,27 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (_operation.connectPeripheral.state == CBPeripheralStateConnected) {
+
+    if (self.operation.connectPeripheral.state == CBPeripheralStateConnected) {
         return;
     }
-    [_searchIndictorView startAnimating];
-    [_operation searchlinkDevice:^(BOOL successVaule) {
+
+    [self searchDevice];
+}
+
+
+- (void)searchDevice
+{
+    _isSearch = YES;
+    [self.setIndicateView startAnimating];
+    [self.operation searchlinkDevice:^(BOOL successVaule) {
+        
         if (successVaule) {
-            [_searchIndictorView stopAnimating];
+            [self.setIndicateView stopAnimating];
+            _isSearch = NO;
         }else {
-            
+            [self.setIndicateView stopAnimating];
+            _isSearch = NO;
         }
     }];
 }
@@ -79,6 +80,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    _isSearch = NO;
 //    [_advertisementData removeAllObjects];
 //    [_peripherArray removeAllObjects];
     //[_operation stopScan];
@@ -90,6 +92,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - ScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.frame.origin.x > -10.0f && !_isSearch) {
+        [_peripherArray removeAllObjects];
+        [_advertisementData removeAllObjects];
+        //[self.tableView reloadData];
+        [self searchDevice];
+    }
+    
+}
+
 
 #pragma mark - GetPeripheralInfoDelegate -
 
@@ -97,6 +112,13 @@
 {
     [_advertisementData addObject:info];
     [_peripherArray addObject:peripheral];
+    [self.tableView reloadData];
+}
+
+- (void)disconnected
+{
+    [_peripherArray removeAllObjects];
+    [_advertisementData removeAllObjects];
     [self.tableView reloadData];
 }
 
@@ -140,19 +162,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_searchIndictorView startAnimating];
+    [self.setIndicateView startAnimating];
     [self.tableView setScrollEnabled:NO];
-    _operation.connectPeripheral = _peripherArray[indexPath.row];
+    self.operation.connectPeripheral = _peripherArray[indexPath.row];
     NSNumber *number = [NSNumber numberWithInteger:indexPath.row];
     
-    if (_operation.connectPeripheral.state == CBPeripheralStateConnected) {
+    if (self.operation.connectPeripheral.state == CBPeripheralStateConnected) {
+        [self.setIndicateView stopAnimating];
         [self performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
     }
     else
     {
-        [_operation connectDiscoverPeripheral:^(BOOL isConnect) {
+        [self.operation connectDiscoverPeripheral:^(BOOL isConnect) {
             if (isConnect) {
-                [_searchIndictorView stopAnimating];
+                [self.setIndicateView stopAnimating];
                 [self.tableView setScrollEnabled:YES];
                 [self performSegueWithIdentifier:@"toDeviceDashboard" sender:number];
                 //[_operation getRetDevInfo];
@@ -163,39 +186,6 @@
     
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 #pragma mark - Navigation
@@ -207,7 +197,7 @@
         //CBPeripheral *connectPeripheral = ((CBPeripheral *)_peripherArray)[sender];
         ((DeviceDashboardViewController *)(segue.destinationViewController)).peripheral = [_peripherArray objectAtIndex:[sender integerValue]];
         ((DeviceDashboardViewController *)(segue.destinationViewController)).deviceInfo = [_advertisementData objectAtIndex:[sender integerValue]];
-        ((DeviceDashboardViewController *)(segue.destinationViewController)).operation = _operation;
+        ((DeviceDashboardViewController *)(segue.destinationViewController)).operation = self.operation;
     }
 }
 

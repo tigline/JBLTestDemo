@@ -9,9 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "PeripheralInfo.h"
+#import "LinkOperation.h"
 
-@interface RootbusinessViewController : UIViewController
+@interface RootbusinessViewController : UITableViewController <PeripheralOperationDelegate>
 
 @property (nonatomic, weak) PeripheralInfo *businessPeripheral;
+
+@property (nonatomic, strong) LinkOperation *operation;
+
+- (UIActivityIndicatorView *)setIndicateView;
 
 @end

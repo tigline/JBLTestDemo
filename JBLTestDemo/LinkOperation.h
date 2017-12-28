@@ -32,6 +32,8 @@ typedef void(^JBLNotifyLedPatternsBlock)(unsigned int themeId);
 
 @optional
 
+- (void)notifyBluetoothState:(BOOL)isOn;
+
 /**
  *  拿到数据
  *
@@ -111,7 +113,7 @@ typedef void(^JBLNotifyLedPatternsBlock)(unsigned int themeId);
 /**
  *  连接的外围设备
  */
-@property (nonatomic, strong) CBPeripheral *connectPeripheral;
+@property (nonatomic, strong) CBPeripheral *connectPeripheral; 
 
 /**
  *  连接设备发现的属性

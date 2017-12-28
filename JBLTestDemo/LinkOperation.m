@@ -14,10 +14,7 @@
 //#import "CommandCode.h"
 //#import "AnalysisCommandCode.h"
 
-/**
- 需要注明，下面的UUID是我的蓝牙设备中的Service和Characteristic的UUID，要注意根据自己的蓝牙
- 设备来替换
- */
+
 
 // 蓝牙设备提供的服务的UUID
 #define kCGMServiceTwoUUID        @"0000FFF0-0000-1000-8000-00805F9B34FB"
@@ -38,7 +35,7 @@
 @interface LinkOperation () <CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (strong, nonatomic) NSMutableArray *jblProducts;
-@property (nonatomic, strong) NSArray *supportedVids;
+@property (nonatomic,strong) NSArray *supportedVids;
 @property (nonatomic,strong) bluetoothStateBlock state;
 @property (nonatomic,strong) peripheralConnectionBlock connectionState;
 
@@ -54,23 +51,23 @@
 
 - (instancetype)init
 {
-//    self = [super init];
-//    if (!self) {
-    _queuePer = _queuePer = dispatch_queue_create("com.test.JBLLinkPer", DISPATCH_QUEUE_SERIAL);
-    _peripheralArray = [NSMutableArray arrayWithCapacity:0];
-    _jblProducts     = [NSMutableArray new];
-    _otaUrl = FLIP4_UPGRADE_URL;
-    _whatsNewUrl = WHATS_NEW_FLIP4_URL;
-
-    _supportedVids = [[NSBundle mainBundle] objectForInfoDictionaryKey:SUPPORTED_VIDS];
+    self = [super init];
+    if (self) {
         
-    [self loadJBLProducts];
-//    }
-    
-    
-    
+        _queuePer = dispatch_queue_create("com.test.JBLLinkPer", DISPATCH_QUEUE_SERIAL);
+        _peripheralArray = [NSMutableArray arrayWithCapacity:0];
+        _jblProducts     = [NSMutableArray new];
+        _otaUrl = FLIP4_UPGRADE_URL;
+        _whatsNewUrl = WHATS_NEW_FLIP4_URL;
+
+        _supportedVids = [[NSBundle mainBundle] objectForInfoDictionaryKey:SUPPORTED_VIDS];
+        
+        [self loadJBLProducts];
+    }
+
     return self;
 }
+
 
 
 - (void)loadJBLProducts
@@ -108,22 +105,20 @@
     return _centeralManager;
 }
 
-//搜索蓝牙设备
+//Search BLE Device
 - (void)searchlinkDevice:(JBLConnectSuccessBlock)connectSuccessBlock
 {
 
-//    _centeralManager = [[CBCentralManager alloc] initWithDelegate:self
-//                                                            queue:nil];
     _connectSuccessBlock = connectSuccessBlock;
     if(self.centeralManager.state == CBManagerStatePoweredOff) {
         // 蓝牙关闭的
-        
+        [_operationDelegate notifyBluetoothState:NO];
         
     } else if(self.centeralManager.state == CBManagerStateUnsupported) {
         // 设备不支持蓝牙
     } else if(self.centeralManager.state == CBManagerStatePoweredOn ||
               self.centeralManager.state == CBManagerStateUnknown) {
-        
+        [_operationDelegate notifyBluetoothState:YES];
         // 开启的话开始扫描蓝牙设备
         [self.centeralManager scanForPeripheralsWithServices:nil options:nil];
         
@@ -136,7 +131,8 @@
         dispatch_after(popTime,
                        dispatch_get_main_queue(),
                        ^(void) {
-            [self stopScan];
+                           [self stopScan];
+                           _connectSuccessBlock(NO);
         });
     }
 }
@@ -148,13 +144,15 @@
     switch (central.state) {
         case CBManagerStatePoweredOn:
         {
-            // 扫描外围设备
             [self.centeralManager scanForPeripheralsWithServices:nil options:nil];
+            [_operationDelegate notifyBluetoothState:YES];
         }
         break;
             
         default:
-            NSLog(@"设备蓝牙未开启");
+            NSLog(@"Bluetooth Power Off");
+            [_operationDelegate notifyBluetoothState:NO];
+            [_operationDelegate disconnected];
             break;
     }
 }
@@ -171,7 +169,7 @@
      kCBAdvDataManufacturerData = <43474d01>;
      kCBAdvDataTxPowerLevel = 0;
      */
-    if(!central.isScanning){
+    if(!central.isScanning) {
         return;
     }
     NSData *advDataManData = [advertisementData objectForKey:k_CBAdvDataManufacturerData];
@@ -197,31 +195,21 @@
         if ([_connectPeripheral.name isEqualToString:peripheral.name]) {
             return;
         }
-        _connectPeripheral = peripheral;
+        //_connectPeripheral = peripheral;
         //    [self.centeralManager connectPeripheral:peripheral options:nil];
 //        if (_connectPeripheral.state != CBPeripheralStateConnected) {
 //            return;
 //        }
         
         if (advertisementData[@"kCBAdvDataLocalName"] != nil || peripheral.name != nil){
-            NSLog(@"已搜索到设备");
+            NSLog(@"find device");
             NSLog(@"peripheral.identifier = %@  peripheral.name = %@", peripheral.identifier, peripheral.name);
             
             [_delegate getAdvertisementData:advertisementData andPeripheral:peripheral];
             [_peripheralArray addObject:peripheral];
             _connectSuccessBlock(YES);
         }
-
     }
-    
-    //4.addArray
-
-
-    
-    // 设备的UUID（peripheral.identifier）是由两个设备的mac通过算法得到的，所以不同的手机连接相同的设备，它的UUID都是不同的，无法标识设备
-    // 苹果与蓝牙设备连接通信时，使用的并不是苹果蓝牙模块的Mac地址，使用的是苹果随机生成的十六进制码作为手机蓝牙的Mac与外围蓝牙设备进行交互。如果蓝牙设备与手机在一定时间内多次通信，那么使用的是首次连接时随机生成的十六进制码作为Mac地址，超过这个固定的时间段，手机会清空已随机生成的Mac地址，重新生成。
-    // 也就是说外围设备是不能通过与苹果手机的交互时所获取的蓝牙Mac地址作为手机的唯一标识的。
-    
 }
 
 - (BOOL)validateVID:(uint)vidInt
@@ -306,15 +294,15 @@
 
 -(void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-    NSLog(@"连接断开 %@", [error localizedDescription]);
-    [_operationDelegate disconnected];
+    NSLog(@"Link Disconnected %@", [error localizedDescription]);
+    //[_operationDelegate disconnected];
 }
 
 #pragma mark - 设备连接成功 -
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-    // 设备停止扫描
+   
     [self.centeralManager stopScan];
     
     peripheral.delegate = self;
@@ -322,7 +310,7 @@
     
     dispatch_after(2, dispatch_get_main_queue(), ^{
         
-        // 查找服务
+        
         NSLog(@"%@",[NSString stringWithFormat:@"Speaker %@ Discovering Services...", self]);
 
         [_connectPeripheral discoverServices:@[bleTxRxService]];
@@ -334,7 +322,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
     if (error) {
-        // 输出错误信息
+        
         NSLog(@"discoverServices.error============ %@", [error localizedDescription]);
 
         return;
@@ -359,7 +347,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
 {
     if (error) {
-        // 输出错误信息
+        
         NSLog(@"discoverCharacteristics.error=========== %@", [error localizedDescription]);
         return;
     }
@@ -613,25 +601,6 @@
     
     NSLog(@"value ============= %@", characteristic.value);
     [self parseRecivedValue:characteristic.value];
-//    // 解析数据
-//    NSData *data = characteristic.value;
-//
-//    // 将NSData转Byte数组
-//    NSUInteger len = [data length];
-//    Byte *byteData = (Byte *)malloc(len);
-//    memcpy(byteData, [data bytes], len);
-//
-//    NSMutableArray *commandArray = [NSMutableArray arrayWithCapacity:0];
-//
-//    // Byte数组转字符串
-//    for (int i = 0; i < len; i++) {
-//        NSString *str = [NSString stringWithFormat:@"%02x", byteData[i]];
-//        [commandArray addObject:str];
-//        NSLog(@"byteData = %@", str);
-//    }
-//
-//    // 输出数据
-//    [_operationDelegate dataWithCharacteristic:commandArray];
     
     
 }
