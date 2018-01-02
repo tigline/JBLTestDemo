@@ -12,7 +12,6 @@
 		7003306A1FF293AB007A871C /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = 700330691FF293AB007A871C /* Http.m */; };
 		7003306D1FF299EC007A871C /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7003306B1FF299EC007A871C /* DeviceInfo.m */; };
 		93718CDD1FEA6B0E0055D322 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CDC1FEA6B0E0055D322 /* AppDelegate.m */; };
-		93718CE01FEA6B0E0055D322 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93718CDF1FEA6B0E0055D322 /* ViewController.m */; };
 		93718CE31FEA6B0E0055D322 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93718CE11FEA6B0E0055D322 /* Main.storyboard */; };
 		93718CE51FEA6B0E0055D322 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93718CE41FEA6B0E0055D322 /* Assets.xcassets */; };
 		93718CE81FEA6B0E0055D322 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93718CE61FEA6B0E0055D322 /* LaunchScreen.storyboard */; };
@@ -63,8 +62,6 @@
 		93718CD81FEA6B0E0055D322 /* JBLTestDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBLTestDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93718CDB1FEA6B0E0055D322 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		93718CDC1FEA6B0E0055D322 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		93718CDE1FEA6B0E0055D322 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		93718CDF1FEA6B0E0055D322 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		93718CE21FEA6B0E0055D322 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		93718CE41FEA6B0E0055D322 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93718CE71FEA6B0E0055D322 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -223,8 +220,6 @@
 		9395AEB51FF1FBBF00F266B0 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				93718CDE1FEA6B0E0055D322 /* ViewController.h */,
-				93718CDF1FEA6B0E0055D322 /* ViewController.m */,
 				93718D0E1FEA6F2D0055D322 /* SearchDeviceTableViewController.h */,
 				93718D0D1FEA6F2D0055D322 /* SearchDeviceTableViewController.m */,
 				700330631FEAC771007A871C /* DeviceDashboardViewController.h */,
@@ -392,7 +387,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93718CE01FEA6B0E0055D322 /* ViewController.m in Sources */,
 				7003306A1FF293AB007A871C /* Http.m in Sources */,
 				93718CEB1FEA6B0E0055D322 /* main.m in Sources */,
 				9379CDC31FEBA31300592CEF /* XMLReader.m in Sources */,

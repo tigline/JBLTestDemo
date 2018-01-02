@@ -35,24 +35,24 @@ typedef void(^JBLNotifyLedPatternsBlock)(unsigned int themeId);
 - (void)notifyBluetoothState:(BOOL)isOn;
 
 /**
- *  拿到数据
+ *  when get device data.
  *
- *  @param array 通过蓝牙设备获取到的数据
+ *  @param array  device data array
  */
 - (void)dataWithCharacteristic:(NSArray *)array;
 
 /**
- *  对特性写命令码
+ *  when write
  */
 - (void)writeCharacteristic;
 
 /**
- *  设备断开连接
+ *  when disconnected
  */
 - (void)disconnected;
 
 /**
- *  设备连接失败
+ *  connected failed
  */
 - (void)failToConnect;
 
@@ -63,10 +63,10 @@ typedef void(^JBLNotifyLedPatternsBlock)(unsigned int themeId);
 @optional
 
 /**
- *  搜索到cgm设备的回调
  *
- *  @param info       设备信息
- *  @param peripheral 搜索到的设备
+ *
+ *  @param info  deviceInfo
+ *  @param peripheral 123
  */
 - (void)getAdvertisementData:(NSDictionary *)info andPeripheral:(CBPeripheral *)peripheral;
 
@@ -91,52 +91,52 @@ typedef void(^JBLNotifyLedPatternsBlock)(unsigned int themeId);
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
 /**
- *  GetPeripheralDataDelegate 代理
+ *  GetPeripheralDataDelegate
  */
 @property (nonatomic, weak) id <GetPeripheralInfoDelegate> delegate;
 
 /**
- *  GetCGMDataDelegate 代理
+ *  GetCGMDataDelegate
  */
 @property (nonatomic, weak) id <PeripheralOperationDelegate> operationDelegate;
 
 /**
- *  中心设备
+ *  Center Device
  */
 @property (nonatomic, strong) CBCentralManager *centeralManager;
 
 /**
- *  外围设备数组
+ *  Peripheral DeviceArray
  */
 @property (nonatomic, strong) NSMutableArray *peripheralArray;
 
 /**
- *  连接的外围设备
+ *  Connected Peripheral Device
  */
 @property (nonatomic, strong) CBPeripheral *connectPeripheral; 
 
 /**
- *  连接设备发现的属性
+ *  Peripheral Characteristic
  */
 @property (nonatomic, strong) CBCharacteristic *readAndWriteCharacteristic;
 
 /**
- *  连接的设备发现的
+ *
  */
 @property (nonatomic, strong) CBCharacteristic *notifyCharacteristic;
 
 /**
- *  停止扫描
+ *  stopScan
  */
 - (void)stopScan;
 
 /**
- *  断开连接
+ *  disconnected
  */
 - (void)cancelConnectPeripheral;
 
 /**
- *  连接设备
+ *  connect device
  */
 - (void)connectDiscoverPeripheral:(peripheralConnectionBlock)state;;
 
@@ -144,21 +144,21 @@ typedef void(^JBLNotifyLedPatternsBlock)(unsigned int themeId);
 
 
 /**
- *  扫描设备
+ *  scan device
  */
 - (void)searchlinkDevice:(JBLConnectSuccessBlock)connectSuccessBlock;
 
 /**
- *  写数据
+ *  wirte data
  *
- *  @param data 需要写入的命令码
+ *  @param data
  */
 - (void)writeCharacter:(NSData *)data;
 
+//setCurrentBrightNess
+
 -(void)setCurrentBrightNess:(NSUInteger )brightness;
-/**
- *  读数据
- */
+
 
 @property (nonatomic, strong) DeviceInfo *deviceInfo;
 
